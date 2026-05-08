@@ -15,25 +15,9 @@ RUN git clone --depth 1 --recursive https://github.com/fastgs/FastGS.git /opt/fa
                  /opt/fastgs/submodules/simple-knn \
                  /opt/fastgs/submodules/fused-ssim
 
-# lpipsPyTorch repo no longer exists — install the PyPI equivalent and shim the import
-RUN pip3 install lpips tqdm imageio && \
-    python3 -c "
-import site, os
-d = site.getsitepackages()[0] + '/lpipsPyTorch'
-os.makedirs(d, exist_ok=True)
-open(d + '/__init__.py', 'w').write('''
-import torch, lpips as _l
-_cache = {}
-def lpips(x, y, net=\"alex\", normalize=False):
-    key = (net, str(x.device))
-    if key not in _cache:
-        _cache[key] = _l.LPIPS(net=net).to(x.device)
-    fn = _cache[key]
-    if normalize:
-        x, y = 2*x - 1, 2*y - 1
-    return fn(x, y)
-'''.strip())
-"
+# lpipsPyTorch repo no longer exists — use lpips from PyPI with a compatibility shim
+RUN pip3 install lpips tqdm imageio
+COPY lpipsPyTorch/ /usr/local/lib/python3.10/dist-packages/lpipsPyTorch/
 
 COPY scripts/ scripts/
 COPY run.sh .
