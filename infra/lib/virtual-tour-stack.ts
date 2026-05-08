@@ -46,44 +46,21 @@ export class VirtualTourStack extends cdk.Stack {
       ],
     });
 
-    // Outputs bucket: versioned, public read via bucket policy
+    // Outputs bucket: versioned, private — served via CloudFront OAC
     const outputsBucket = new s3.Bucket(this, 'OutputsBucket', {
       bucketName: `tours-outputs-${account}-${region}`,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       autoDeleteObjects: true,
       versioned: true,
-      blockPublicAccess: new s3.BlockPublicAccess({
-        blockPublicAcls: false,
-        blockPublicPolicy: false,
-        ignorePublicAcls: false,
-        restrictPublicBuckets: false,
-      }),
+      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
     });
 
-    outputsBucket.addToResourcePolicy(
-      new iam.PolicyStatement({
-        sid: 'PublicReadGetObject',
-        effect: iam.Effect.ALLOW,
-        principals: [new iam.StarPrincipal()],
-        actions: ['s3:GetObject'],
-        resources: [`${outputsBucket.bucketArn}/*`],
-      }),
-    );
-
-    // Viewer bucket: static website hosting, public read
+    // Viewer bucket: private — served via CloudFront OAC
     const viewerBucket = new s3.Bucket(this, 'ViewerBucket', {
       bucketName: `tour-viewer-${account}-${region}`,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       autoDeleteObjects: true,
-      websiteIndexDocument: 'index.html',
-      websiteErrorDocument: 'index.html',
-      blockPublicAccess: new s3.BlockPublicAccess({
-        blockPublicAcls: false,
-        blockPublicPolicy: false,
-        ignorePublicAcls: false,
-        restrictPublicBuckets: false,
-      }),
-      publicReadAccess: true,
+      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
     });
 
     // ─── DynamoDB ─────────────────────────────────────────────────────────────
@@ -108,12 +85,13 @@ export class VirtualTourStack extends cdk.Stack {
       repositoryName: 'tour-worker',
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       autoDeleteImages: true,
+      lifecycleRules: [{ maxImageCount: 3, rulePriority: 1 }],
     });
 
     // ─── VPC for Batch ────────────────────────────────────────────────────────
 
     const batchVpc = new ec2.Vpc(this, 'BatchVpc', {
-      maxAzs: 1,
+      maxAzs: 3,
       natGateways: 0,
       subnetConfiguration: [
         {
@@ -159,14 +137,14 @@ export class VirtualTourStack extends cdk.Stack {
 
     // ─── AWS Batch (L1 constructs) ────────────────────────────────────────────
 
-    const computeEnvironment = new batch.CfnComputeEnvironment(this, 'BatchComputeEnv', {
+    const computeEnvironment = new batch.CfnComputeEnvironment(this, 'BatchComputeEnv2', {
       type: 'MANAGED',
       state: 'ENABLED',
-      serviceRole: batchServiceRole.roleArn,
+      serviceRole: `arn:aws:iam::${account}:role/aws-service-role/batch.amazonaws.com/AWSServiceRoleForBatch`,
       computeResources: {
         type: 'SPOT',
         allocationStrategy: 'SPOT_CAPACITY_OPTIMIZED',
-        instanceTypes: ['g5.xlarge'],
+        instanceTypes: ['g5.xlarge', 'g4dn.xlarge', 'g5.2xlarge', 'g4dn.2xlarge', 'g4dn.4xlarge'],
         minvCpus: 0,
         maxvCpus: 16,
         desiredvCpus: 0,
@@ -197,11 +175,10 @@ export class VirtualTourStack extends cdk.Stack {
       jobDefinitionName: 'tour-worker-job',
       type: 'container',
       containerProperties: {
-        image: 'public.ecr.aws/lambda/provided:al2',
-        command: ['echo', 'hello'],
-        vcpus: 8,
-        memory: 30720,
-        jobRoleArn: batchInstanceRole.roleArn,
+        image: ecrRepo.repositoryUri + ':latest',
+        command: [],
+        vcpus: 4,
+        memory: 14000,
         environment: [],
       },
       timeout: {
@@ -288,7 +265,7 @@ export class VirtualTourStack extends cdk.Stack {
       new iam.PolicyStatement({
         effect: iam.Effect.ALLOW,
         actions: ['batch:SubmitJob'],
-        resources: ['*'],
+        resources: [jobQueue.ref, jobDefinition.ref],
       }),
     );
 
@@ -303,7 +280,7 @@ export class VirtualTourStack extends cdk.Stack {
 
     const outputsDistribution = new cloudfront.Distribution(this, 'OutputsDistribution', {
       defaultBehavior: {
-        origin: new cloudfront_origins.S3Origin(outputsBucket),
+        origin: cloudfront_origins.S3BucketOrigin.withOriginAccessControl(outputsBucket),
         viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
         cachePolicy: cloudfront.CachePolicy.CACHING_OPTIMIZED,
       },
@@ -312,9 +289,9 @@ export class VirtualTourStack extends cdk.Stack {
 
     const viewerDistribution = new cloudfront.Distribution(this, 'ViewerDistribution', {
       defaultBehavior: {
-        origin: new cloudfront_origins.S3StaticWebsiteOrigin(viewerBucket),
+        origin: cloudfront_origins.S3BucketOrigin.withOriginAccessControl(viewerBucket),
         viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
-        cachePolicy: cloudfront.CachePolicy.CACHING_DISABLED,
+        cachePolicy: cloudfront.CachePolicy.CACHING_OPTIMIZED,
         allowedMethods: cloudfront.AllowedMethods.ALLOW_GET_HEAD_OPTIONS,
       },
       defaultRootObject: 'index.html',

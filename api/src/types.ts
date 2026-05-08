@@ -1,4 +1,4 @@
-export type JobStatus = 'uploading' | 'queued' | 'processing' | 'done' | 'failed';
+export type JobStatus = 'uploading' | 'queued' | 'running' | 'done' | 'failed';
 
 export interface Job {
   jobId: string;

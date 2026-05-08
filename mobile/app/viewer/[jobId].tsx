@@ -5,9 +5,11 @@ import { useLocalSearchParams } from "expo-router";
 import { ExternalLink } from "lucide-react-native";
 import { useJob } from "hooks/use-api/use-tours";
 
+const VIEWER_BASE =
+  process.env.EXPO_PUBLIC_VIEWER_URL ?? "https://superspl.at/viewer/";
+
 function buildViewerUrl(sogUrl: string, collisionUrl: string): string {
-  // Use SuperSplat viewer online — works with any CORS-accessible URL
-  const base = "https://superspl.at/viewer/";
+  const base = VIEWER_BASE.endsWith("/") ? VIEWER_BASE : `${VIEWER_BASE}/`;
   const params = new URLSearchParams({ content: sogUrl, collision: collisionUrl });
   return `${base}?${params.toString()}`;
 }

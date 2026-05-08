@@ -59,7 +59,7 @@ export default function HomeScreen() {
     if (job.status === "done") {
       router.push(`/viewer/${job.jobId}`);
     } else if (job.status === "failed") {
-      Alert.alert("Processing Failed", job.error ?? "Unknown error");
+      Alert.alert("Processing Failed", job.errorMessage ?? "Unknown error");
     } else {
       router.push(`/processing/${job.jobId}`);
     }

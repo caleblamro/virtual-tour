@@ -54,7 +54,7 @@ export default function ProcessingScreen() {
           {STATUS_LABELS[status]}
         </Text>
         <Text className="text-muted-foreground text-center text-sm">
-          {isFailed ? job?.error ?? STATUS_SUBLABELS.failed : STATUS_SUBLABELS[status]}
+          {isFailed ? job?.errorMessage ?? STATUS_SUBLABELS.failed : STATUS_SUBLABELS[status]}
         </Text>
       </View>
 
@@ -77,7 +77,7 @@ export default function ProcessingScreen() {
           {[
             { label: "Extract frames", threshold: 10 },
             { label: "COLMAP reconstruction", threshold: 35 },
-            { label: "3DGS training (15k steps)", threshold: 90 },
+            { label: "3DGS training (10k steps)", threshold: 90 },
             { label: "Format conversion", threshold: 100 },
           ].map(({ label, threshold }) => (
             <View key={label} className="flex-row items-center gap-3">

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Train a 3D Gaussian Splat from COLMAP output using gsplat."""
 import os
+import re
 import sys
 import shutil
 import subprocess
@@ -11,22 +12,22 @@ def main():
     output_dir = "/work/output"
     os.makedirs(output_dir, exist_ok=True)
 
-    # Use gsplat's simple_trainer CLI
+    # 10k steps: good visual quality for home walkthroughs in ~20–30 min on g4dn.xlarge
     cmd = [
-        "python3", "-m", "gsplat.scripts.simple_trainer",
+        "python3", "/opt/gsplat/examples/simple_trainer.py", "default",
         "--data_dir", colmap_dir,
         "--data_factor", "1",
         "--result_dir", output_dir,
-        "--max_steps", "15000",
-        "--save_steps", "15000",
-        "--eval_steps", "15000",
+        "--max_steps", "10000",
+        "--save_steps", "10000",
+        "--eval_steps", "10000",
         "--disable_viewer",
     ]
 
     print(f"Running: {' '.join(cmd)}")
     subprocess.run(cmd, check=True)
 
-    # Find the output ply file
+    # Find the output ply file — gsplat names them splat_<step>.ply
     ply_files = []
     for root, dirs, files in os.walk(output_dir):
         for f in files:
@@ -37,8 +38,8 @@ def main():
         print("ERROR: No .ply file found after training", file=sys.stderr)
         sys.exit(1)
 
-    # Prefer a splat/point_cloud ply over any eval ply if multiple exist
-    preferred = [p for p in ply_files if "point_cloud" in os.path.basename(p)]
+    # Prefer the checkpoint splat over any eval/pointcloud ply
+    preferred = [p for p in ply_files if re.search(r'splat_\d+\.ply', os.path.basename(p))]
     chosen = preferred[0] if preferred else ply_files[0]
 
     dest = "/work/output/point_cloud.ply"

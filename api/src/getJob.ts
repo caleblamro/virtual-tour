@@ -40,8 +40,8 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     if (job.status === 'done' && job.outputPrefix) {
       const baseUrl = `${CLOUDFRONT_OUTPUT_URL}/${job.outputPrefix}`;
       job.outputUrls = {
-        sog: `${baseUrl}/sog.glb`,
-        collision: `${baseUrl}/collision.glb`,
+        sog: `${baseUrl}/scene.sog`,
+        collision: `${baseUrl}/scene.collision.glb`,
         thumbnail: `${baseUrl}/thumbnail.jpg`,
       };
     }

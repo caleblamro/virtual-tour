@@ -8,7 +8,7 @@ export interface Job {
   createdAt: string;
   updatedAt: string;
   outputPrefix?: string;
-  error?: string;
+  errorMessage?: string;
   outputUrls?: {
     sog: string;
     collision: string;

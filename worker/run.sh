@@ -32,21 +32,30 @@ update_progress() {
   local now
   now="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 
+  # Build attribute values via Python to safely escape message strings as JSON
+  local update_expr attr_values
   if [ -n "$message" ]; then
-    aws dynamodb update-item \
-      --table-name "$JOBS_TABLE" \
-      --key '{"jobId":{"S":"'"$JOB_ID"'"}}' \
-      --update-expression "SET #s = :s, progress = :p, updatedAt = :u, message = :m" \
-      --expression-attribute-names '{"#s":"status"}' \
-      --expression-attribute-values '{":s":{"S":"'"$status"'"},":p":{"N":"'"$progress"'"},":u":{"S":"'"$now"'"},":m":{"S":"'"$message"'"}}'
+    update_expr="SET #s = :s, progress = :p, updatedAt = :u, message = :m"
+    attr_values=$(python3 -c "
+import json,sys
+s,p,u,m=sys.argv[1],sys.argv[2],sys.argv[3],sys.argv[4]
+print(json.dumps({':s':{'S':s},':p':{'N':p},':u':{'S':u},':m':{'S':m}}))" \
+      "$status" "$progress" "$now" "$message")
   else
-    aws dynamodb update-item \
-      --table-name "$JOBS_TABLE" \
-      --key '{"jobId":{"S":"'"$JOB_ID"'"}}' \
-      --update-expression "SET #s = :s, progress = :p, updatedAt = :u" \
-      --expression-attribute-names '{"#s":"status"}' \
-      --expression-attribute-values '{":s":{"S":"'"$status"'"},":p":{"N":"'"$progress"'"},":u":{"S":"'"$now"'"}}'
+    update_expr="SET #s = :s, progress = :p, updatedAt = :u"
+    attr_values=$(python3 -c "
+import json,sys
+s,p,u=sys.argv[1],sys.argv[2],sys.argv[3]
+print(json.dumps({':s':{'S':s},':p':{'N':p},':u':{'S':u}}))" \
+      "$status" "$progress" "$now")
   fi
+
+  aws dynamodb update-item \
+    --table-name "$JOBS_TABLE" \
+    --key "{\"jobId\":{\"S\":\"$JOB_ID\"}}" \
+    --update-expression "$update_expr" \
+    --expression-attribute-names '{"#s":"status"}' \
+    --expression-attribute-values "$attr_values"
 }
 
 # ---------------------------------------------------------------------------

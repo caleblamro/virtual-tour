@@ -18,6 +18,7 @@ export default function CaptureScreen() {
   const [micPermission, requestMicPermission] = useMicrophonePermissions();
   const [recordingState, setRecordingState] = useState<RecordingState>("idle");
   const [elapsed, setElapsed] = useState(0);
+  const elapsedRef = useRef(0);
   const [uploadProgress, setUploadProgress] = useState(0);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -36,11 +37,10 @@ export default function CaptureScreen() {
     if (recordingState === "recording") {
       intervalRef.current = setInterval(() => {
         setElapsed((e) => {
-          if (e + 1 >= MAX_DURATION_S) {
-            stopRecording();
-            return e + 1;
-          }
-          return e + 1;
+          const next = e + 1;
+          elapsedRef.current = next;
+          if (next >= MAX_DURATION_S) stopRecording();
+          return next;
         });
       }, 1000);
     } else {
@@ -53,6 +53,7 @@ export default function CaptureScreen() {
 
   async function startRecording() {
     if (!cameraRef.current) return;
+    elapsedRef.current = 0;
     setElapsed(0);
     setRecordingState("recording");
     try {
@@ -70,7 +71,7 @@ export default function CaptureScreen() {
   }
 
   async function handleUpload(uri: string) {
-    if (elapsed < MIN_DURATION_S) {
+    if (elapsedRef.current < MIN_DURATION_S) {
       Alert.alert(
         "Too Short",
         `Please record at least ${MIN_DURATION_S} seconds for best results.`,
