@@ -9,12 +9,15 @@ RUN apt-get update && apt-get install -y xvfb ninja-build && rm -rf /var/lib/apt
 ENV TORCH_CUDA_ARCH_LIST="7.5;8.6;8.9"
 
 # FastGS: clone with submodules, compile CUDA extensions against our PyTorch 2.3 + CUDA 12.1.
+# Split into two layers: CUDA compile (slow, stable) vs pip deps (fast, may change).
 RUN git clone --depth 1 --recursive https://github.com/fastgs/FastGS.git /opt/fastgs && \
     pip3 install --no-build-isolation \
                  /opt/fastgs/submodules/diff-gaussian-rasterization_fastgs \
                  /opt/fastgs/submodules/simple-knn \
-                 /opt/fastgs/submodules/fused-ssim && \
-    pip3 install git+https://github.com/S-aiueo32/lpipsPyTorch.git tqdm imageio
+                 /opt/fastgs/submodules/fused-ssim
+
+RUN git clone --depth 1 https://github.com/S-aiueo32/lpipsPyTorch.git /opt/lpipsPyTorch && \
+    pip3 install /opt/lpipsPyTorch tqdm imageio
 
 COPY scripts/ scripts/
 COPY run.sh .
