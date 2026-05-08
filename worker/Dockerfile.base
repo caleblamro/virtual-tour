@@ -5,11 +5,27 @@ ENV PYTHONUNBUFFERED=1
 
 RUN apt-get update && apt-get install -y \
     git wget curl ffmpeg python3 python3-pip unzip \
-    build-essential cmake libgoogle-glog-dev libgflags-dev \
+    build-essential cmake ninja-build \
+    libgoogle-glog-dev libgflags-dev \
     libatlas-base-dev libeigen3-dev libsuitesparse-dev \
     libboost-all-dev libfreeimage-dev libmetis-dev \
-    colmap \
+    libceres-dev libflann-dev libglew-dev libcgal-dev libsqlite3-dev \
     && rm -rf /var/lib/apt/lists/*
+
+# Build COLMAP 4.x from source — required for colmap global_mapper (GLOMAP-merged).
+# Ubuntu 22.04 apt ships COLMAP 3.7 which lacks global_mapper.
+# CUDA archs: 75=T4, 86=A10G, 89=L4 — covers all current GPU Batch instance types.
+# GUI disabled: headless batch worker, SIFT GPU still works via DISPLAY/Xvfb at runtime.
+RUN git clone --depth 1 https://github.com/colmap/colmap.git /tmp/colmap-src && \
+    cmake -S /tmp/colmap-src -B /tmp/colmap-src/build -GNinja \
+      -DCUDA_ENABLED=ON \
+      -DGUI_ENABLED=OFF \
+      -DTESTS_ENABLED=OFF \
+      -DCMAKE_BUILD_TYPE=Release \
+      -DCMAKE_CUDA_ARCHITECTURES="75;86;89" && \
+    ninja -C /tmp/colmap-src/build -j$(nproc) && \
+    ninja -C /tmp/colmap-src/build install && \
+    rm -rf /tmp/colmap-src
 
 # AWS CLI v2 (apt ships v1 which is incompatible with newer botocore)
 RUN curl -fsSL "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o /tmp/awscliv2.zip && \
@@ -22,10 +38,10 @@ RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
     apt-get install -y nodejs && \
     rm -rf /var/lib/apt/lists/*
 
-# PyTorch + gsplat
+# PyTorch + core deps (FastGS CUDA extensions compiled against this stack in Dockerfile)
 RUN pip3 install --upgrade pip && \
     pip3 install torch==2.3.0 torchvision --index-url https://download.pytorch.org/whl/cu121 && \
-    pip3 install gsplat nerfview viser tyro pillow numpy boto3
+    pip3 install pillow numpy boto3
 
 # splat-transform
 RUN npm install -g @playcanvas/splat-transform
