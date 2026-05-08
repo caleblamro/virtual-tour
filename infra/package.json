@@ -1,0 +1,25 @@
+{
+  "name": "@virtual-tour/infra",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "synth": "cdk synth",
+    "deploy": "cdk deploy",
+    "diff": "cdk diff",
+    "destroy": "cdk destroy"
+  },
+  "devDependencies": {
+    "aws-cdk": "2.1121.0",
+    "typescript": "5.8.3",
+    "@types/node": "22.14.0",
+    "ts-node": "10.9.2",
+    "source-map-support": "0.5.21",
+    "@types/source-map-support": "0.5.10"
+  },
+  "dependencies": {
+    "aws-cdk-lib": "2.253.0",
+    "constructs": "10.6.0"
+  }
+}
