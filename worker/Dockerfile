@@ -14,7 +14,7 @@ RUN git clone --depth 1 --recursive https://github.com/fastgs/FastGS.git /opt/fa
                  /opt/fastgs/submodules/diff-gaussian-rasterization_fastgs \
                  /opt/fastgs/submodules/simple-knn \
                  /opt/fastgs/submodules/fused-ssim && \
-    pip3 install lpipsPyTorch tqdm imageio
+    pip3 install git+https://github.com/S-aiueo32/lpipsPyTorch.git tqdm imageio
 
 COPY scripts/ scripts/
 COPY run.sh .
