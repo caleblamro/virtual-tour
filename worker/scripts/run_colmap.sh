@@ -13,11 +13,12 @@ colmap feature_extractor \
   --SiftExtraction.use_gpu 1 \
   --SiftExtraction.max_num_features 16384
 
-# Sequential matching — correct for ordered video frames
-colmap sequential_matcher \
+# Exhaustive matching — checks all frame pairs, catching connections when the
+# camera revisits the same area (common in home/room walkthroughs). More accurate
+# than sequential_matcher for scenes ≤300 frames.
+colmap exhaustive_matcher \
   --database_path /work/db.db \
-  --SiftMatching.use_gpu 1 \
-  --SequentialMatching.overlap 20
+  --SiftMatching.use_gpu 1
 
 colmap mapper \
   --database_path /work/db.db \
@@ -30,6 +31,12 @@ if [ ! -d "/work/sparse/0" ]; then
   echo "COLMAP reconstruction failed - no model produced"
   exit 1
 fi
+
+# Align world orientation so Y is up — fixes upside-down/tilted models
+colmap model_orientation_aligner \
+  --input_path /work/sparse/0 \
+  --output_path /work/sparse/0 \
+  --image_path /work/frames/
 
 colmap image_undistorter \
   --image_path /work/frames/ \

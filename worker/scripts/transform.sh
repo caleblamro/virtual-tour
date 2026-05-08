@@ -16,7 +16,7 @@ splat-transform -w "$PLY" /work/final/scene.sog
 splat-transform -w "$PLY" /work/final/scene.collision.glb -K
 
 # Generate thumbnail by extracting a representative frame from input
-ffmpeg -i /work/input.mp4 -ss 00:00:03 -vframes 1 -vf "scale=640:-2" /work/final/thumbnail.jpg
+ffmpeg -y -i /work/input.mp4 -ss 00:00:03 -vframes 1 -vf "scale=640:-2" /work/final/thumbnail.jpg
 
 echo "Transform complete. Files:"
 ls -lh /work/final/
