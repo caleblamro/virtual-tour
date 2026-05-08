@@ -1,0 +1,2778 @@
+{
+ "Resources": {
+  "UploadsBucket5E5E9B64": {
+   "Type": "AWS::S3::Bucket",
+   "Properties": {
+    "BucketName": "tours-uploads-584916459912-us-west-2",
+    "CorsConfiguration": {
+     "CorsRules": [
+      {
+       "AllowedHeaders": [
+        "*"
+       ],
+       "AllowedMethods": [
+        "PUT",
+        "GET"
+       ],
+       "AllowedOrigins": [
+        "*"
+       ],
+       "MaxAge": 3000
+      }
+     ]
+    },
+    "LifecycleConfiguration": {
+     "Rules": [
+      {
+       "ExpirationInDays": 7,
+       "Status": "Enabled"
+      }
+     ]
+    },
+    "PublicAccessBlockConfiguration": {
+     "BlockPublicAcls": true,
+     "BlockPublicPolicy": true,
+     "IgnorePublicAcls": true,
+     "RestrictPublicBuckets": true
+    },
+    "Tags": [
+     {
+      "Key": "aws-cdk:auto-delete-objects",
+      "Value": "true"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/UploadsBucket/Resource"
+   }
+  },
+  "UploadsBucketPolicy34A32B0B": {
+   "Type": "AWS::S3::BucketPolicy",
+   "Properties": {
+    "Bucket": {
+     "Ref": "UploadsBucket5E5E9B64"
+    },
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:PutBucketPolicy",
+        "s3:GetBucket*",
+        "s3:List*",
+        "s3:DeleteObject*"
+       ],
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::GetAtt": [
+          "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+          "Arn"
+         ]
+        }
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "UploadsBucket5E5E9B64",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "UploadsBucket5E5E9B64",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/UploadsBucket/Policy/Resource"
+   }
+  },
+  "UploadsBucketAutoDeleteObjectsCustomResourceFFD11C72": {
+   "Type": "Custom::S3AutoDeleteObjects",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F",
+      "Arn"
+     ]
+    },
+    "BucketName": {
+     "Ref": "UploadsBucket5E5E9B64"
+    }
+   },
+   "DependsOn": [
+    "UploadsBucketPolicy34A32B0B"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/UploadsBucket/AutoDeleteObjectsCustomResource/Default"
+   }
+  },
+  "UploadsBucketNotificationsHandlerPolicy74E9A4D0": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "s3:PutBucketNotification",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "UploadsBucket5E5E9B64",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "UploadsBucketNotificationsHandlerPolicy74E9A4D0",
+    "Roles": [
+     {
+      "Ref": "BucketNotificationsHandler050a0587b7544547bf325f094a3db834RoleB6FB88EC"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/UploadsBucket/Notifications/HandlerPolicy/Resource"
+   }
+  },
+  "UploadsBucketNotifications4592A072": {
+   "Type": "Custom::S3BucketNotifications",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "BucketNotificationsHandler050a0587b7544547bf325f094a3db8347ECC3691",
+      "Arn"
+     ]
+    },
+    "BucketName": {
+     "Ref": "UploadsBucket5E5E9B64"
+    },
+    "NotificationConfiguration": {
+     "LambdaFunctionConfigurations": [
+      {
+       "Events": [
+        "s3:ObjectCreated:*"
+       ],
+       "LambdaFunctionArn": {
+        "Fn::GetAtt": [
+         "OnUploadFn4AA79727",
+         "Arn"
+        ]
+       }
+      }
+     ]
+    },
+    "Managed": true,
+    "SkipDestinationValidation": false
+   },
+   "DependsOn": [
+    "UploadsBucketAllowBucketNotificationsToVirtualTourStackOnUploadFn4D92FE997D97D64C",
+    "UploadsBucketNotificationsHandlerPolicy74E9A4D0",
+    "UploadsBucketPolicy34A32B0B"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/UploadsBucket/Notifications/Resource"
+   }
+  },
+  "UploadsBucketAllowBucketNotificationsToVirtualTourStackOnUploadFn4D92FE997D97D64C": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "OnUploadFn4AA79727",
+      "Arn"
+     ]
+    },
+    "Principal": "s3.amazonaws.com",
+    "SourceAccount": "584916459912",
+    "SourceArn": {
+     "Fn::GetAtt": [
+      "UploadsBucket5E5E9B64",
+      "Arn"
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/UploadsBucket/AllowBucketNotificationsToVirtualTourStackOnUploadFn4D92FE99"
+   }
+  },
+  "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Version": "2012-10-17",
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ]
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Sub": "arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Role"
+   }
+  },
+  "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-584916459912-us-west-2",
+     "S3Key": "faa95a81ae7d7373f3e1f242268f904eb748d8d0fdd306e8a6fe515a1905a7d6.zip"
+    },
+    "Timeout": 900,
+    "MemorySize": 128,
+    "Handler": "index.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs22.x",
+    "Description": {
+     "Fn::Join": [
+      "",
+      [
+       "Lambda function for auto-deleting objects in ",
+       {
+        "Ref": "UploadsBucket5E5E9B64"
+       },
+       " S3 bucket."
+      ]
+     ]
+    }
+   },
+   "DependsOn": [
+    "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Handler",
+    "aws:asset:path": "asset.faa95a81ae7d7373f3e1f242268f904eb748d8d0fdd306e8a6fe515a1905a7d6",
+    "aws:asset:property": "Code"
+   }
+  },
+  "OutputsBucket24CB89DF": {
+   "Type": "AWS::S3::Bucket",
+   "Properties": {
+    "BucketName": "tours-outputs-584916459912-us-west-2",
+    "PublicAccessBlockConfiguration": {
+     "BlockPublicAcls": true,
+     "BlockPublicPolicy": true,
+     "IgnorePublicAcls": true,
+     "RestrictPublicBuckets": true
+    },
+    "Tags": [
+     {
+      "Key": "aws-cdk:auto-delete-objects",
+      "Value": "true"
+     }
+    ],
+    "VersioningConfiguration": {
+     "Status": "Enabled"
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/OutputsBucket/Resource"
+   }
+  },
+  "OutputsBucketPolicy1BAA4ABE": {
+   "Type": "AWS::S3::BucketPolicy",
+   "Properties": {
+    "Bucket": {
+     "Ref": "OutputsBucket24CB89DF"
+    },
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:PutBucketPolicy",
+        "s3:GetBucket*",
+        "s3:List*",
+        "s3:DeleteObject*"
+       ],
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::GetAtt": [
+          "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+          "Arn"
+         ]
+        }
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "OutputsBucket24CB89DF",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "OutputsBucket24CB89DF",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "s3:GetObject",
+       "Condition": {
+        "StringEquals": {
+         "AWS:SourceArn": {
+          "Fn::Join": [
+           "",
+           [
+            "arn:",
+            {
+             "Ref": "AWS::Partition"
+            },
+            ":cloudfront::",
+            {
+             "Ref": "AWS::AccountId"
+            },
+            ":distribution/",
+            {
+             "Ref": "OutputsDistribution6E64F3F1"
+            }
+           ]
+          ]
+         }
+        }
+       },
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "cloudfront.amazonaws.com"
+       },
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          {
+           "Fn::GetAtt": [
+            "OutputsBucket24CB89DF",
+            "Arn"
+           ]
+          },
+          "/*"
+         ]
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/OutputsBucket/Policy/Resource"
+   }
+  },
+  "OutputsBucketAutoDeleteObjectsCustomResource74769A63": {
+   "Type": "Custom::S3AutoDeleteObjects",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F",
+      "Arn"
+     ]
+    },
+    "BucketName": {
+     "Ref": "OutputsBucket24CB89DF"
+    }
+   },
+   "DependsOn": [
+    "OutputsBucketPolicy1BAA4ABE"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/OutputsBucket/AutoDeleteObjectsCustomResource/Default"
+   }
+  },
+  "ViewerBucketC34045E1": {
+   "Type": "AWS::S3::Bucket",
+   "Properties": {
+    "BucketName": "tour-viewer-584916459912-us-west-2",
+    "PublicAccessBlockConfiguration": {
+     "BlockPublicAcls": true,
+     "BlockPublicPolicy": true,
+     "IgnorePublicAcls": true,
+     "RestrictPublicBuckets": true
+    },
+    "Tags": [
+     {
+      "Key": "aws-cdk:auto-delete-objects",
+      "Value": "true"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/ViewerBucket/Resource"
+   }
+  },
+  "ViewerBucketPolicyBC0E564E": {
+   "Type": "AWS::S3::BucketPolicy",
+   "Properties": {
+    "Bucket": {
+     "Ref": "ViewerBucketC34045E1"
+    },
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:PutBucketPolicy",
+        "s3:GetBucket*",
+        "s3:List*",
+        "s3:DeleteObject*"
+       ],
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::GetAtt": [
+          "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+          "Arn"
+         ]
+        }
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "ViewerBucketC34045E1",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "ViewerBucketC34045E1",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "s3:GetObject",
+       "Condition": {
+        "StringEquals": {
+         "AWS:SourceArn": {
+          "Fn::Join": [
+           "",
+           [
+            "arn:",
+            {
+             "Ref": "AWS::Partition"
+            },
+            ":cloudfront::",
+            {
+             "Ref": "AWS::AccountId"
+            },
+            ":distribution/",
+            {
+             "Ref": "ViewerDistribution652701C8"
+            }
+           ]
+          ]
+         }
+        }
+       },
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "cloudfront.amazonaws.com"
+       },
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          {
+           "Fn::GetAtt": [
+            "ViewerBucketC34045E1",
+            "Arn"
+           ]
+          },
+          "/*"
+         ]
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/ViewerBucket/Policy/Resource"
+   }
+  },
+  "ViewerBucketAutoDeleteObjectsCustomResource71EAFD08": {
+   "Type": "Custom::S3AutoDeleteObjects",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F",
+      "Arn"
+     ]
+    },
+    "BucketName": {
+     "Ref": "ViewerBucketC34045E1"
+    }
+   },
+   "DependsOn": [
+    "ViewerBucketPolicyBC0E564E"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/ViewerBucket/AutoDeleteObjectsCustomResource/Default"
+   }
+  },
+  "JobsTable1970BC16": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "jobId",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "userId",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "createdAt",
+      "AttributeType": "S"
+     }
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+    "GlobalSecondaryIndexes": [
+     {
+      "IndexName": "userId-createdAt-index",
+      "KeySchema": [
+       {
+        "AttributeName": "userId",
+        "KeyType": "HASH"
+       },
+       {
+        "AttributeName": "createdAt",
+        "KeyType": "RANGE"
+       }
+      ],
+      "Projection": {
+       "ProjectionType": "ALL"
+      }
+     }
+    ],
+    "KeySchema": [
+     {
+      "AttributeName": "jobId",
+      "KeyType": "HASH"
+     }
+    ],
+    "TableName": "Jobs"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/JobsTable/Resource"
+   }
+  },
+  "TourWorkerRepoA913762B": {
+   "Type": "AWS::ECR::Repository",
+   "Properties": {
+    "LifecyclePolicy": {
+     "LifecyclePolicyText": "{\"rules\":[{\"rulePriority\":1,\"selection\":{\"tagStatus\":\"any\",\"countType\":\"imageCountMoreThan\",\"countNumber\":3},\"action\":{\"type\":\"expire\"}}]}"
+    },
+    "RepositoryName": "tour-worker",
+    "Tags": [
+     {
+      "Key": "aws-cdk:auto-delete-images",
+      "Value": "true"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/TourWorkerRepo/Resource"
+   }
+  },
+  "TourWorkerRepoAutoDeleteImagesCustomResource87581519": {
+   "Type": "Custom::ECRAutoDeleteImages",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomECRAutoDeleteImagesCustomResourceProviderHandler8D89C030",
+      "Arn"
+     ]
+    },
+    "RepositoryName": {
+     "Ref": "TourWorkerRepoA913762B"
+    }
+   },
+   "DependsOn": [
+    "TourWorkerRepoA913762B"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/TourWorkerRepo/AutoDeleteImagesCustomResource/Default"
+   }
+  },
+  "CustomECRAutoDeleteImagesCustomResourceProviderRole665F2773": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Version": "2012-10-17",
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ]
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Sub": "arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+     }
+    ],
+    "Policies": [
+     {
+      "PolicyName": "Inline",
+      "PolicyDocument": {
+       "Version": "2012-10-17",
+       "Statement": [
+        {
+         "Effect": "Allow",
+         "Action": [
+          "ecr:BatchDeleteImage",
+          "ecr:DescribeRepositories",
+          "ecr:ListImages",
+          "ecr:ListTagsForResource"
+         ],
+         "Resource": [
+          {
+           "Fn::Join": [
+            "",
+            [
+             "arn:",
+             {
+              "Ref": "AWS::Partition"
+             },
+             ":ecr:us-west-2:584916459912:repository/*"
+            ]
+           ]
+          }
+         ],
+         "Condition": {
+          "StringEquals": {
+           "ecr:ResourceTag/aws-cdk:auto-delete-images": "true"
+          }
+         }
+        }
+       ]
+      }
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/Custom::ECRAutoDeleteImagesCustomResourceProvider/Role"
+   }
+  },
+  "CustomECRAutoDeleteImagesCustomResourceProviderHandler8D89C030": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-584916459912-us-west-2",
+     "S3Key": "35b572929cb33e6d117671a546fbaa386f9cacb446acf9af08ba9d376edce0f9.zip"
+    },
+    "Timeout": 900,
+    "MemorySize": 128,
+    "Handler": "index.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "CustomECRAutoDeleteImagesCustomResourceProviderRole665F2773",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs22.x",
+    "Description": {
+     "Fn::Join": [
+      "",
+      [
+       "Lambda function for auto-deleting images in ",
+       {
+        "Ref": "TourWorkerRepoA913762B"
+       },
+       " repository."
+      ]
+     ]
+    }
+   },
+   "DependsOn": [
+    "CustomECRAutoDeleteImagesCustomResourceProviderRole665F2773"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/Custom::ECRAutoDeleteImagesCustomResourceProvider/Handler",
+    "aws:asset:path": "asset.35b572929cb33e6d117671a546fbaa386f9cacb446acf9af08ba9d376edce0f9",
+    "aws:asset:property": "Code"
+   }
+  },
+  "BatchVpc4B2AEB5B": {
+   "Type": "AWS::EC2::VPC",
+   "Properties": {
+    "CidrBlock": "10.0.0.0/16",
+    "EnableDnsHostnames": true,
+    "EnableDnsSupport": true,
+    "InstanceTenancy": "default",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "VirtualTourStack/BatchVpc"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/BatchVpc/Resource"
+   }
+  },
+  "BatchVpcPublicSubnet1Subnet31633A1F": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "us-west-2a",
+    "CidrBlock": "10.0.0.0/24",
+    "MapPublicIpOnLaunch": true,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Public"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Public"
+     },
+     {
+      "Key": "Name",
+      "Value": "VirtualTourStack/BatchVpc/PublicSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "BatchVpc4B2AEB5B"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/BatchVpc/PublicSubnet1/Subnet"
+   }
+  },
+  "BatchVpcPublicSubnet1RouteTableF9405838": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "VirtualTourStack/BatchVpc/PublicSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "BatchVpc4B2AEB5B"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/BatchVpc/PublicSubnet1/RouteTable"
+   }
+  },
+  "BatchVpcPublicSubnet1RouteTableAssociation9973DB5D": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "BatchVpcPublicSubnet1RouteTableF9405838"
+    },
+    "SubnetId": {
+     "Ref": "BatchVpcPublicSubnet1Subnet31633A1F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/BatchVpc/PublicSubnet1/RouteTableAssociation"
+   }
+  },
+  "BatchVpcPublicSubnet1DefaultRoute2131DB86": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "GatewayId": {
+     "Ref": "BatchVpcIGWF728C04F"
+    },
+    "RouteTableId": {
+     "Ref": "BatchVpcPublicSubnet1RouteTableF9405838"
+    }
+   },
+   "DependsOn": [
+    "BatchVpcVPCGWE0E8C261"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/BatchVpc/PublicSubnet1/DefaultRoute"
+   }
+  },
+  "BatchVpcPublicSubnet2Subnet31AA024F": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "us-west-2b",
+    "CidrBlock": "10.0.1.0/24",
+    "MapPublicIpOnLaunch": true,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Public"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Public"
+     },
+     {
+      "Key": "Name",
+      "Value": "VirtualTourStack/BatchVpc/PublicSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "BatchVpc4B2AEB5B"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/BatchVpc/PublicSubnet2/Subnet"
+   }
+  },
+  "BatchVpcPublicSubnet2RouteTableFA91774D": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "VirtualTourStack/BatchVpc/PublicSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "BatchVpc4B2AEB5B"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/BatchVpc/PublicSubnet2/RouteTable"
+   }
+  },
+  "BatchVpcPublicSubnet2RouteTableAssociation71A8C499": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "BatchVpcPublicSubnet2RouteTableFA91774D"
+    },
+    "SubnetId": {
+     "Ref": "BatchVpcPublicSubnet2Subnet31AA024F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/BatchVpc/PublicSubnet2/RouteTableAssociation"
+   }
+  },
+  "BatchVpcPublicSubnet2DefaultRoute3C769CCF": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "GatewayId": {
+     "Ref": "BatchVpcIGWF728C04F"
+    },
+    "RouteTableId": {
+     "Ref": "BatchVpcPublicSubnet2RouteTableFA91774D"
+    }
+   },
+   "DependsOn": [
+    "BatchVpcVPCGWE0E8C261"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/BatchVpc/PublicSubnet2/DefaultRoute"
+   }
+  },
+  "BatchVpcPublicSubnet3Subnet45AE4127": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "us-west-2c",
+    "CidrBlock": "10.0.2.0/24",
+    "MapPublicIpOnLaunch": true,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Public"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Public"
+     },
+     {
+      "Key": "Name",
+      "Value": "VirtualTourStack/BatchVpc/PublicSubnet3"
+     }
+    ],
+    "VpcId": {
+     "Ref": "BatchVpc4B2AEB5B"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/BatchVpc/PublicSubnet3/Subnet"
+   }
+  },
+  "BatchVpcPublicSubnet3RouteTableB9B9486A": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "VirtualTourStack/BatchVpc/PublicSubnet3"
+     }
+    ],
+    "VpcId": {
+     "Ref": "BatchVpc4B2AEB5B"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/BatchVpc/PublicSubnet3/RouteTable"
+   }
+  },
+  "BatchVpcPublicSubnet3RouteTableAssociation04BF0C2C": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "BatchVpcPublicSubnet3RouteTableB9B9486A"
+    },
+    "SubnetId": {
+     "Ref": "BatchVpcPublicSubnet3Subnet45AE4127"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/BatchVpc/PublicSubnet3/RouteTableAssociation"
+   }
+  },
+  "BatchVpcPublicSubnet3DefaultRouteEA078244": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "GatewayId": {
+     "Ref": "BatchVpcIGWF728C04F"
+    },
+    "RouteTableId": {
+     "Ref": "BatchVpcPublicSubnet3RouteTableB9B9486A"
+    }
+   },
+   "DependsOn": [
+    "BatchVpcVPCGWE0E8C261"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/BatchVpc/PublicSubnet3/DefaultRoute"
+   }
+  },
+  "BatchVpcIGWF728C04F": {
+   "Type": "AWS::EC2::InternetGateway",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "VirtualTourStack/BatchVpc"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/BatchVpc/IGW"
+   }
+  },
+  "BatchVpcVPCGWE0E8C261": {
+   "Type": "AWS::EC2::VPCGatewayAttachment",
+   "Properties": {
+    "InternetGatewayId": {
+     "Ref": "BatchVpcIGWF728C04F"
+    },
+    "VpcId": {
+     "Ref": "BatchVpc4B2AEB5B"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/BatchVpc/VPCGW"
+   }
+  },
+  "BatchSG9E4B0CB5": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "Security group for Batch compute environment",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow all outbound traffic by default",
+      "IpProtocol": "-1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "BatchVpc4B2AEB5B"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/BatchSG/Resource"
+   }
+  },
+  "BatchServiceRole57930367": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "batch.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSBatchServiceRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/BatchServiceRole/Resource"
+   }
+  },
+  "BatchInstanceRole8DB66C4C": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "ec2.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/BatchInstanceRole/Resource"
+   }
+  },
+  "BatchInstanceRoleDefaultPolicy70968813": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:GetObject*",
+        "s3:GetBucket*",
+        "s3:List*"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "UploadsBucket5E5E9B64",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "UploadsBucket5E5E9B64",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "s3:DeleteObject*",
+        "s3:PutObject",
+        "s3:PutObjectLegalHold",
+        "s3:PutObjectRetention",
+        "s3:PutObjectTagging",
+        "s3:PutObjectVersionTagging",
+        "s3:Abort*"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "OutputsBucket24CB89DF",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "OutputsBucket24CB89DF",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:Query",
+        "dynamodb:GetItem",
+        "dynamodb:Scan",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "JobsTable1970BC16",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "JobsTable1970BC16",
+             "Arn"
+            ]
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "JobsTable1970BC16",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "JobsTable1970BC16",
+             "Arn"
+            ]
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "BatchInstanceRoleDefaultPolicy70968813",
+    "Roles": [
+     {
+      "Ref": "BatchInstanceRole8DB66C4C"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/BatchInstanceRole/DefaultPolicy/Resource"
+   }
+  },
+  "BatchInstanceProfile": {
+   "Type": "AWS::IAM::InstanceProfile",
+   "Properties": {
+    "Roles": [
+     {
+      "Ref": "BatchInstanceRole8DB66C4C"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/BatchInstanceProfile"
+   }
+  },
+  "BatchComputeEnv2": {
+   "Type": "AWS::Batch::ComputeEnvironment",
+   "Properties": {
+    "ComputeResources": {
+     "AllocationStrategy": "BEST_FIT_PROGRESSIVE",
+     "DesiredvCpus": 0,
+     "InstanceRole": {
+      "Fn::GetAtt": [
+       "BatchInstanceProfile",
+       "Arn"
+      ]
+     },
+     "InstanceTypes": [
+      "g5.xlarge",
+      "g4dn.xlarge",
+      "g5.2xlarge",
+      "g4dn.2xlarge",
+      "g4dn.4xlarge"
+     ],
+     "MaxvCpus": 16,
+     "MinvCpus": 0,
+     "SecurityGroupIds": [
+      {
+       "Fn::GetAtt": [
+        "BatchSG9E4B0CB5",
+        "GroupId"
+       ]
+      }
+     ],
+     "Subnets": [
+      {
+       "Ref": "BatchVpcPublicSubnet1Subnet31633A1F"
+      },
+      {
+       "Ref": "BatchVpcPublicSubnet2Subnet31AA024F"
+      },
+      {
+       "Ref": "BatchVpcPublicSubnet3Subnet45AE4127"
+      }
+     ],
+     "Tags": {
+      "Project": "virtual-tour"
+     },
+     "Type": "EC2"
+    },
+    "ServiceRole": "arn:aws:iam::584916459912:role/aws-service-role/batch.amazonaws.com/AWSServiceRoleForBatch",
+    "State": "ENABLED",
+    "Type": "MANAGED"
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/BatchComputeEnv2"
+   }
+  },
+  "JobQueue": {
+   "Type": "AWS::Batch::JobQueue",
+   "Properties": {
+    "ComputeEnvironmentOrder": [
+     {
+      "ComputeEnvironment": {
+       "Ref": "BatchComputeEnv2"
+      },
+      "Order": 1
+     }
+    ],
+    "JobQueueName": "tour-jobs-queue",
+    "Priority": 1,
+    "State": "ENABLED"
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/JobQueue"
+   }
+  },
+  "JobDefinition": {
+   "Type": "AWS::Batch::JobDefinition",
+   "Properties": {
+    "ContainerProperties": {
+     "Command": [],
+     "Environment": [],
+     "Image": {
+      "Fn::Join": [
+       "",
+       [
+        {
+         "Fn::Select": [
+          4,
+          {
+           "Fn::Split": [
+            ":",
+            {
+             "Fn::GetAtt": [
+              "TourWorkerRepoA913762B",
+              "Arn"
+             ]
+            }
+           ]
+          }
+         ]
+        },
+        ".dkr.ecr.",
+        {
+         "Fn::Select": [
+          3,
+          {
+           "Fn::Split": [
+            ":",
+            {
+             "Fn::GetAtt": [
+              "TourWorkerRepoA913762B",
+              "Arn"
+             ]
+            }
+           ]
+          }
+         ]
+        },
+        ".",
+        {
+         "Ref": "AWS::URLSuffix"
+        },
+        "/",
+        {
+         "Ref": "TourWorkerRepoA913762B"
+        },
+        ":latest"
+       ]
+      ]
+     },
+     "Memory": 14000,
+     "ResourceRequirements": [
+      {
+       "Type": "GPU",
+       "Value": "1"
+      }
+     ],
+     "Vcpus": 4
+    },
+    "JobDefinitionName": "tour-worker-job",
+    "RetryStrategy": {
+     "Attempts": 1
+    },
+    "Timeout": {
+     "AttemptDurationSeconds": 3600
+    },
+    "Type": "container"
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/JobDefinition"
+   }
+  },
+  "CreateJobFnServiceRole9D96925D": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/CreateJobFn/ServiceRole/Resource"
+   }
+  },
+  "CreateJobFnServiceRoleDefaultPolicy76E1D239": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:DeleteObject*",
+        "s3:PutObject",
+        "s3:PutObjectLegalHold",
+        "s3:PutObjectRetention",
+        "s3:PutObjectTagging",
+        "s3:PutObjectVersionTagging",
+        "s3:Abort*"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "UploadsBucket5E5E9B64",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "UploadsBucket5E5E9B64",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "s3:GetObject*",
+        "s3:GetBucket*",
+        "s3:List*"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "OutputsBucket24CB89DF",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "OutputsBucket24CB89DF",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "dynamodb:BatchWriteItem",
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "JobsTable1970BC16",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "JobsTable1970BC16",
+             "Arn"
+            ]
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "CreateJobFnServiceRoleDefaultPolicy76E1D239",
+    "Roles": [
+     {
+      "Ref": "CreateJobFnServiceRole9D96925D"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/CreateJobFn/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "CreateJobFnB19C676F": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-584916459912-us-west-2",
+     "S3Key": "f804d261912b8e020dc083a2982d23ee41f03164bfb19befed079b919943b988.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "JOBS_TABLE": {
+       "Ref": "JobsTable1970BC16"
+      },
+      "UPLOADS_BUCKET": {
+       "Ref": "UploadsBucket5E5E9B64"
+      },
+      "OUTPUTS_BUCKET": {
+       "Ref": "OutputsBucket24CB89DF"
+      },
+      "JOB_QUEUE_ARN": {
+       "Ref": "JobQueue"
+      },
+      "JOB_DEFINITION_ARN": {
+       "Ref": "JobDefinition"
+      }
+     }
+    },
+    "FunctionName": "virtual-tour-createJob",
+    "Handler": "index.handler",
+    "MemorySize": 256,
+    "Role": {
+     "Fn::GetAtt": [
+      "CreateJobFnServiceRole9D96925D",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "CreateJobFnServiceRoleDefaultPolicy76E1D239",
+    "CreateJobFnServiceRole9D96925D"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/CreateJobFn/Resource",
+    "aws:asset:path": "asset.f804d261912b8e020dc083a2982d23ee41f03164bfb19befed079b919943b988",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "GetJobFnServiceRole8B20C1F3": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/GetJobFn/ServiceRole/Resource"
+   }
+  },
+  "GetJobFnServiceRoleDefaultPolicyF033CD0B": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:Query",
+        "dynamodb:GetItem",
+        "dynamodb:Scan",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DescribeTable"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "JobsTable1970BC16",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "JobsTable1970BC16",
+             "Arn"
+            ]
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "JobsTable1970BC16",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "JobsTable1970BC16",
+             "Arn"
+            ]
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "s3:GetObject*",
+        "s3:GetBucket*",
+        "s3:List*"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "OutputsBucket24CB89DF",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "OutputsBucket24CB89DF",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "GetJobFnServiceRoleDefaultPolicyF033CD0B",
+    "Roles": [
+     {
+      "Ref": "GetJobFnServiceRole8B20C1F3"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/GetJobFn/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "GetJobFn642F34A5": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-584916459912-us-west-2",
+     "S3Key": "b96d75a679270286b470b051208b75cadb1d5971ce9fc23e238e9a149fa927a5.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "JOBS_TABLE": {
+       "Ref": "JobsTable1970BC16"
+      },
+      "UPLOADS_BUCKET": {
+       "Ref": "UploadsBucket5E5E9B64"
+      },
+      "OUTPUTS_BUCKET": {
+       "Ref": "OutputsBucket24CB89DF"
+      },
+      "JOB_QUEUE_ARN": {
+       "Ref": "JobQueue"
+      },
+      "JOB_DEFINITION_ARN": {
+       "Ref": "JobDefinition"
+      },
+      "CLOUDFRONT_OUTPUT_URL": {
+       "Fn::Join": [
+        "",
+        [
+         "https://",
+         {
+          "Fn::GetAtt": [
+           "OutputsDistribution6E64F3F1",
+           "DomainName"
+          ]
+         }
+        ]
+       ]
+      }
+     }
+    },
+    "FunctionName": "virtual-tour-getJob",
+    "Handler": "index.handler",
+    "MemorySize": 256,
+    "Role": {
+     "Fn::GetAtt": [
+      "GetJobFnServiceRole8B20C1F3",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "GetJobFnServiceRoleDefaultPolicyF033CD0B",
+    "GetJobFnServiceRole8B20C1F3"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/GetJobFn/Resource",
+    "aws:asset:path": "asset.b96d75a679270286b470b051208b75cadb1d5971ce9fc23e238e9a149fa927a5",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "ListJobsFnServiceRole404617D1": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/ListJobsFn/ServiceRole/Resource"
+   }
+  },
+  "ListJobsFnServiceRoleDefaultPolicy72584EA4": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:Query",
+        "dynamodb:GetItem",
+        "dynamodb:Scan",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DescribeTable"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "JobsTable1970BC16",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "JobsTable1970BC16",
+             "Arn"
+            ]
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "JobsTable1970BC16",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "JobsTable1970BC16",
+             "Arn"
+            ]
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ListJobsFnServiceRoleDefaultPolicy72584EA4",
+    "Roles": [
+     {
+      "Ref": "ListJobsFnServiceRole404617D1"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/ListJobsFn/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "ListJobsFn725D7062": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-584916459912-us-west-2",
+     "S3Key": "836506c946f6b428ee5aade11df388e447efad7c37774ae1ac013339c36cac9f.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "JOBS_TABLE": {
+       "Ref": "JobsTable1970BC16"
+      },
+      "UPLOADS_BUCKET": {
+       "Ref": "UploadsBucket5E5E9B64"
+      },
+      "OUTPUTS_BUCKET": {
+       "Ref": "OutputsBucket24CB89DF"
+      },
+      "JOB_QUEUE_ARN": {
+       "Ref": "JobQueue"
+      },
+      "JOB_DEFINITION_ARN": {
+       "Ref": "JobDefinition"
+      }
+     }
+    },
+    "FunctionName": "virtual-tour-listJobs",
+    "Handler": "index.handler",
+    "MemorySize": 256,
+    "Role": {
+     "Fn::GetAtt": [
+      "ListJobsFnServiceRole404617D1",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "ListJobsFnServiceRoleDefaultPolicy72584EA4",
+    "ListJobsFnServiceRole404617D1"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/ListJobsFn/Resource",
+    "aws:asset:path": "asset.836506c946f6b428ee5aade11df388e447efad7c37774ae1ac013339c36cac9f",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "OnUploadFnServiceRole0BE4F252": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/OnUploadFn/ServiceRole/Resource"
+   }
+  },
+  "OnUploadFnServiceRoleDefaultPolicy6F452801": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchWriteItem",
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "JobsTable1970BC16",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "JobsTable1970BC16",
+             "Arn"
+            ]
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "batch:SubmitJob",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Ref": "JobQueue"
+        },
+        {
+         "Ref": "JobDefinition"
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "OnUploadFnServiceRoleDefaultPolicy6F452801",
+    "Roles": [
+     {
+      "Ref": "OnUploadFnServiceRole0BE4F252"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/OnUploadFn/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "OnUploadFn4AA79727": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-584916459912-us-west-2",
+     "S3Key": "cd46c12c9b702c35ff7ce4211039693576d27bdf06db6f567f02cdf112b6ce41.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "JOBS_TABLE": {
+       "Ref": "JobsTable1970BC16"
+      },
+      "UPLOADS_BUCKET": {
+       "Ref": "UploadsBucket5E5E9B64"
+      },
+      "OUTPUTS_BUCKET": {
+       "Ref": "OutputsBucket24CB89DF"
+      },
+      "JOB_QUEUE_ARN": {
+       "Ref": "JobQueue"
+      },
+      "JOB_DEFINITION_ARN": {
+       "Ref": "JobDefinition"
+      }
+     }
+    },
+    "FunctionName": "virtual-tour-onUpload",
+    "Handler": "index.handler",
+    "MemorySize": 256,
+    "Role": {
+     "Fn::GetAtt": [
+      "OnUploadFnServiceRole0BE4F252",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "OnUploadFnServiceRoleDefaultPolicy6F452801",
+    "OnUploadFnServiceRole0BE4F252"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/OnUploadFn/Resource",
+    "aws:asset:path": "asset.cd46c12c9b702c35ff7ce4211039693576d27bdf06db6f567f02cdf112b6ce41",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "BucketNotificationsHandler050a0587b7544547bf325f094a3db834RoleB6FB88EC": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/BucketNotificationsHandler050a0587b7544547bf325f094a3db834/Role/Resource"
+   }
+  },
+  "BucketNotificationsHandler050a0587b7544547bf325f094a3db8347ECC3691": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Description": "AWS CloudFormation handler for \"Custom::S3BucketNotifications\" resources (@aws-cdk/aws-s3)",
+    "Code": {
+     "ZipFile": "import boto3  # type: ignore\nimport json\nimport logging\nimport urllib.request\n\ns3 = boto3.client(\"s3\")\n\nEVENTBRIDGE_CONFIGURATION = 'EventBridgeConfiguration'\nCONFIGURATION_TYPES = [\"TopicConfigurations\", \"QueueConfigurations\", \"LambdaFunctionConfigurations\"]\n\ndef handler(event: dict, context):\n  response_status = \"SUCCESS\"\n  error_message = \"\"\n  try:\n    props = event[\"ResourceProperties\"]\n    notification_configuration = props[\"NotificationConfiguration\"]\n    managed = props.get('Managed', 'true').lower() == 'true'\n    skipDestinationValidation = props.get('SkipDestinationValidation', 'false').lower() == 'true'\n    stack_id = event['StackId']\n    old = event.get(\"OldResourceProperties\", {}).get(\"NotificationConfiguration\", {})\n    if managed:\n      config = handle_managed(event[\"RequestType\"], notification_configuration)\n    else:\n      config = handle_unmanaged(props[\"BucketName\"], stack_id, event[\"RequestType\"], notification_configuration, old)\n    s3.put_bucket_notification_configuration(Bucket=props[\"BucketName\"], NotificationConfiguration=config, SkipDestinationValidation=skipDestinationValidation)\n  except Exception as e:\n    logging.exception(\"Failed to put bucket notification configuration\")\n    response_status = \"FAILED\"\n    error_message = f\"Error: {str(e)}. \"\n  finally:\n    submit_response(event, context, response_status, error_message)\n\ndef handle_managed(request_type, notification_configuration):\n  if request_type == 'Delete':\n    return {}\n  return notification_configuration\n\ndef handle_unmanaged(bucket, stack_id, request_type, notification_configuration, old):\n  def get_id(n):\n    n['Id'] = ''\n    sorted_notifications = sort_filter_rules(n)\n    strToHash=json.dumps(sorted_notifications, sort_keys=True).replace('\"Name\": \"prefix\"', '\"Name\": \"Prefix\"').replace('\"Name\": \"suffix\"', '\"Name\": \"Suffix\"')\n    return f\"{stack_id}-{hash(strToHash)}\"\n  def with_id(n):\n    n['Id'] = get_id(n)\n    return n\n\n  external_notifications = {}\n  existing_notifications = s3.get_bucket_notification_configuration(Bucket=bucket)\n  for t in CONFIGURATION_TYPES:\n    if request_type == 'Update':\n        old_incoming_ids = [get_id(n) for n in old.get(t, [])]\n        external_notifications[t] = [n for n in existing_notifications.get(t, []) if not get_id(n) in old_incoming_ids]      \n    elif request_type == 'Delete':\n        external_notifications[t] = [n for n in existing_notifications.get(t, []) if not n['Id'].startswith(f\"{stack_id}-\")]\n    elif request_type == 'Create':\n        external_notifications[t] = [n for n in existing_notifications.get(t, [])]\n  if EVENTBRIDGE_CONFIGURATION in existing_notifications:\n    external_notifications[EVENTBRIDGE_CONFIGURATION] = existing_notifications[EVENTBRIDGE_CONFIGURATION]\n\n  if request_type == 'Delete':\n    return external_notifications\n\n  notifications = {}\n  for t in CONFIGURATION_TYPES:\n    external = external_notifications.get(t, [])\n    incoming = [with_id(n) for n in notification_configuration.get(t, [])]\n    notifications[t] = external + incoming\n\n  if EVENTBRIDGE_CONFIGURATION in notification_configuration:\n    notifications[EVENTBRIDGE_CONFIGURATION] = notification_configuration[EVENTBRIDGE_CONFIGURATION]\n  elif EVENTBRIDGE_CONFIGURATION in external_notifications:\n    notifications[EVENTBRIDGE_CONFIGURATION] = external_notifications[EVENTBRIDGE_CONFIGURATION]\n\n  return notifications\n\ndef submit_response(event: dict, context, response_status: str, error_message: str):\n  response_body = json.dumps(\n    {\n      \"Status\": response_status,\n      \"Reason\": f\"{error_message}See the details in CloudWatch Log Stream: {context.log_stream_name}\",\n      \"PhysicalResourceId\": event.get(\"PhysicalResourceId\") or event[\"LogicalResourceId\"],\n      \"StackId\": event[\"StackId\"],\n      \"RequestId\": event[\"RequestId\"],\n      \"LogicalResourceId\": event[\"LogicalResourceId\"],\n      \"NoEcho\": False,\n    }\n  ).encode(\"utf-8\")\n  headers = {\"content-type\": \"\", \"content-length\": str(len(response_body))}\n  try:\n    req = urllib.request.Request(url=event[\"ResponseURL\"], headers=headers, data=response_body, method=\"PUT\")\n    with urllib.request.urlopen(req) as response:\n      print(response.read().decode(\"utf-8\"))\n    print(\"Status code: \" + response.reason)\n  except Exception as e:\n      print(\"send(..) failed executing request.urlopen(..): \" + str(e))\n\ndef sort_filter_rules(json_obj):\n  if not isinstance(json_obj, dict):\n      return json_obj\n  for key, value in json_obj.items():\n      if isinstance(value, dict):\n          json_obj[key] = sort_filter_rules(value)\n      elif isinstance(value, list):\n          json_obj[key] = [sort_filter_rules(item) for item in value]\n  if \"Filter\" in json_obj and \"Key\" in json_obj[\"Filter\"] and \"FilterRules\" in json_obj[\"Filter\"][\"Key\"]:\n      filter_rules = json_obj[\"Filter\"][\"Key\"][\"FilterRules\"]\n      sorted_filter_rules = sorted(filter_rules, key=lambda x: x[\"Name\"])\n      json_obj[\"Filter\"][\"Key\"][\"FilterRules\"] = sorted_filter_rules\n  return json_obj"
+    },
+    "Handler": "index.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "BucketNotificationsHandler050a0587b7544547bf325f094a3db834RoleB6FB88EC",
+      "Arn"
+     ]
+    },
+    "Runtime": "python3.13",
+    "Timeout": 300
+   },
+   "DependsOn": [
+    "BucketNotificationsHandler050a0587b7544547bf325f094a3db834RoleB6FB88EC"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/BucketNotificationsHandler050a0587b7544547bf325f094a3db834/Resource"
+   }
+  },
+  "OutputsDistributionOrigin1S3OriginAccessControl3A235738": {
+   "Type": "AWS::CloudFront::OriginAccessControl",
+   "Properties": {
+    "OriginAccessControlConfig": {
+     "Name": "VirtualTourStackOutputsDistrOrigin1S3OriginAccessControl0958E345",
+     "OriginAccessControlOriginType": "s3",
+     "SigningBehavior": "always",
+     "SigningProtocol": "sigv4"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/OutputsDistribution/Origin1/S3OriginAccessControl/Resource"
+   }
+  },
+  "OutputsDistribution6E64F3F1": {
+   "Type": "AWS::CloudFront::Distribution",
+   "Properties": {
+    "DistributionConfig": {
+     "Comment": "Virtual Tour Outputs CDN",
+     "DefaultCacheBehavior": {
+      "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+      "Compress": true,
+      "TargetOriginId": "VirtualTourStackOutputsDistributionOrigin1B84932E6",
+      "ViewerProtocolPolicy": "redirect-to-https"
+     },
+     "Enabled": true,
+     "HttpVersion": "http2",
+     "IPV6Enabled": true,
+     "Origins": [
+      {
+       "DomainName": {
+        "Fn::GetAtt": [
+         "OutputsBucket24CB89DF",
+         "RegionalDomainName"
+        ]
+       },
+       "Id": "VirtualTourStackOutputsDistributionOrigin1B84932E6",
+       "OriginAccessControlId": {
+        "Fn::GetAtt": [
+         "OutputsDistributionOrigin1S3OriginAccessControl3A235738",
+         "Id"
+        ]
+       },
+       "S3OriginConfig": {
+        "OriginAccessIdentity": ""
+       }
+      }
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/OutputsDistribution/Resource"
+   }
+  },
+  "ViewerDistributionOrigin1S3OriginAccessControlBBFD1AD8": {
+   "Type": "AWS::CloudFront::OriginAccessControl",
+   "Properties": {
+    "OriginAccessControlConfig": {
+     "Name": "VirtualTourStackViewerDistriOrigin1S3OriginAccessControlA7117941",
+     "OriginAccessControlOriginType": "s3",
+     "SigningBehavior": "always",
+     "SigningProtocol": "sigv4"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/ViewerDistribution/Origin1/S3OriginAccessControl/Resource"
+   }
+  },
+  "ViewerDistribution652701C8": {
+   "Type": "AWS::CloudFront::Distribution",
+   "Properties": {
+    "DistributionConfig": {
+     "Comment": "Virtual Tour Viewer CDN",
+     "CustomErrorResponses": [
+      {
+       "ErrorCode": 404,
+       "ResponseCode": 200,
+       "ResponsePagePath": "/index.html"
+      }
+     ],
+     "DefaultCacheBehavior": {
+      "AllowedMethods": [
+       "GET",
+       "HEAD",
+       "OPTIONS"
+      ],
+      "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+      "Compress": true,
+      "TargetOriginId": "VirtualTourStackViewerDistributionOrigin11BBEFAB4",
+      "ViewerProtocolPolicy": "redirect-to-https"
+     },
+     "DefaultRootObject": "index.html",
+     "Enabled": true,
+     "HttpVersion": "http2",
+     "IPV6Enabled": true,
+     "Origins": [
+      {
+       "DomainName": {
+        "Fn::GetAtt": [
+         "ViewerBucketC34045E1",
+         "RegionalDomainName"
+        ]
+       },
+       "Id": "VirtualTourStackViewerDistributionOrigin11BBEFAB4",
+       "OriginAccessControlId": {
+        "Fn::GetAtt": [
+         "ViewerDistributionOrigin1S3OriginAccessControlBBFD1AD8",
+         "Id"
+        ]
+       },
+       "S3OriginConfig": {
+        "OriginAccessIdentity": ""
+       }
+      }
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/ViewerDistribution/Resource"
+   }
+  },
+  "VirtualTourApi9705CB02": {
+   "Type": "AWS::ApiGatewayV2::Api",
+   "Properties": {
+    "CorsConfiguration": {
+     "AllowHeaders": [
+      "Content-Type",
+      "x-api-key"
+     ],
+     "AllowMethods": [
+      "GET",
+      "POST",
+      "OPTIONS"
+     ],
+     "AllowOrigins": [
+      "*"
+     ],
+     "MaxAge": 86400
+    },
+    "Name": "virtual-tour-api",
+    "ProtocolType": "HTTP"
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/VirtualTourApi/Resource"
+   }
+  },
+  "VirtualTourApiDefaultStage1CCBAFB6": {
+   "Type": "AWS::ApiGatewayV2::Stage",
+   "Properties": {
+    "ApiId": {
+     "Ref": "VirtualTourApi9705CB02"
+    },
+    "AutoDeploy": true,
+    "StageName": "$default"
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/VirtualTourApi/DefaultStage/Resource"
+   }
+  },
+  "VirtualTourApiPOSTjobsCreateJobIntegrationDCF8CC75": {
+   "Type": "AWS::ApiGatewayV2::Integration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "VirtualTourApi9705CB02"
+    },
+    "IntegrationType": "AWS_PROXY",
+    "IntegrationUri": {
+     "Fn::GetAtt": [
+      "CreateJobFnB19C676F",
+      "Arn"
+     ]
+    },
+    "PayloadFormatVersion": "2.0"
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/VirtualTourApi/POST--jobs/CreateJobIntegration/Resource"
+   }
+  },
+  "VirtualTourApiPOSTjobsCreateJobIntegrationPermission2D27E074": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "CreateJobFnB19C676F",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-west-2:584916459912:",
+       {
+        "Ref": "VirtualTourApi9705CB02"
+       },
+       "/*/*/jobs"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/VirtualTourApi/POST--jobs/CreateJobIntegration-Permission"
+   }
+  },
+  "VirtualTourApiPOSTjobsA5C7145E": {
+   "Type": "AWS::ApiGatewayV2::Route",
+   "Properties": {
+    "ApiId": {
+     "Ref": "VirtualTourApi9705CB02"
+    },
+    "AuthorizationType": "NONE",
+    "RouteKey": "POST /jobs",
+    "Target": {
+     "Fn::Join": [
+      "",
+      [
+       "integrations/",
+       {
+        "Ref": "VirtualTourApiPOSTjobsCreateJobIntegrationDCF8CC75"
+       }
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/VirtualTourApi/POST--jobs/Resource"
+   }
+  },
+  "VirtualTourApiGETjobsjobIdGetJobIntegration808B9308": {
+   "Type": "AWS::ApiGatewayV2::Integration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "VirtualTourApi9705CB02"
+    },
+    "IntegrationType": "AWS_PROXY",
+    "IntegrationUri": {
+     "Fn::GetAtt": [
+      "GetJobFn642F34A5",
+      "Arn"
+     ]
+    },
+    "PayloadFormatVersion": "2.0"
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/VirtualTourApi/GET--jobs--{jobId}/GetJobIntegration/Resource"
+   }
+  },
+  "VirtualTourApiGETjobsjobIdGetJobIntegrationPermission14B3156B": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "GetJobFn642F34A5",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-west-2:584916459912:",
+       {
+        "Ref": "VirtualTourApi9705CB02"
+       },
+       "/*/*/jobs/{jobId}"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/VirtualTourApi/GET--jobs--{jobId}/GetJobIntegration-Permission"
+   }
+  },
+  "VirtualTourApiGETjobsjobId7444F384": {
+   "Type": "AWS::ApiGatewayV2::Route",
+   "Properties": {
+    "ApiId": {
+     "Ref": "VirtualTourApi9705CB02"
+    },
+    "AuthorizationType": "NONE",
+    "RouteKey": "GET /jobs/{jobId}",
+    "Target": {
+     "Fn::Join": [
+      "",
+      [
+       "integrations/",
+       {
+        "Ref": "VirtualTourApiGETjobsjobIdGetJobIntegration808B9308"
+       }
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/VirtualTourApi/GET--jobs--{jobId}/Resource"
+   }
+  },
+  "VirtualTourApiGETjobsListJobsIntegration6A48B9AC": {
+   "Type": "AWS::ApiGatewayV2::Integration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "VirtualTourApi9705CB02"
+    },
+    "IntegrationType": "AWS_PROXY",
+    "IntegrationUri": {
+     "Fn::GetAtt": [
+      "ListJobsFn725D7062",
+      "Arn"
+     ]
+    },
+    "PayloadFormatVersion": "2.0"
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/VirtualTourApi/GET--jobs/ListJobsIntegration/Resource"
+   }
+  },
+  "VirtualTourApiGETjobsListJobsIntegrationPermission96EC809D": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ListJobsFn725D7062",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:us-west-2:584916459912:",
+       {
+        "Ref": "VirtualTourApi9705CB02"
+       },
+       "/*/*/jobs"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/VirtualTourApi/GET--jobs/ListJobsIntegration-Permission"
+   }
+  },
+  "VirtualTourApiGETjobs3C96DF3B": {
+   "Type": "AWS::ApiGatewayV2::Route",
+   "Properties": {
+    "ApiId": {
+     "Ref": "VirtualTourApi9705CB02"
+    },
+    "AuthorizationType": "NONE",
+    "RouteKey": "GET /jobs",
+    "Target": {
+     "Fn::Join": [
+      "",
+      [
+       "integrations/",
+       {
+        "Ref": "VirtualTourApiGETjobsListJobsIntegration6A48B9AC"
+       }
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/VirtualTourApi/GET--jobs/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/8VSTY/TMBD9Lduza5YWLtyyKSxwoKVBe0Gocpxpd9rEjjzjlsrKf0e2+wUSh5WQOM2bj+fxe5qJnLydyvs7daCxbnbjFmsZKlZ6J9SBVoGmMjx4vQMW5dpk9D2MOvyJZvRudEuL8zSVqUUyjxae7QxaYJjXW9BMo0H8R/YPkVsL26I+XhXl/AW6MqFixdCBeeHH/jH5LOpBEQwCVSfDVd8JLW0LMT3HT4ZYGQ0LZ9fYwiBa1dWNkiFSwHVIhNbEyQ/eaEZrBtEcjepsU8vwTdX5mQQGAdrJsITeErJ1ae81i+2JDE+9jvWnRSkWvm5RV742+aquaGk9w+X1XL/WCiKrUfHpZ6mRxTA4A/yoGA7qeFpzygpmpZ+jVaIC7R3y8dFZ36cFt4VB1Ir1c7KgtF3vGd6bPTprErlcm8+2/urBwwnPYI0GszfZvpWxDWxJfknh7Jyg6UoRAZMsYhC6tb5ZO2tYhhkSO6x9Gqymc4cbNIXWQFRaw862cdtfyrfkQageN1nzfiLDR+a+6DGOxRDTitUmG5tALGUPI4ombtzF3D/SNDcMovTEtlsCWe90vqgL/q21cHaPDbh4lCLJjkvRbMQtee659zyI6Jvc0qv95I18fS/v77aEOHbeMHYglzn+AkWeV8urBAAA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "VirtualTourStack/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "ApiUrl": {
+   "Description": "HTTP API endpoint URL",
+   "Value": {
+    "Fn::GetAtt": [
+     "VirtualTourApi9705CB02",
+     "ApiEndpoint"
+    ]
+   },
+   "Export": {
+    "Name": "VirtualTourApiUrl"
+   }
+  },
+  "ViewerUrl": {
+   "Description": "CloudFront URL for the viewer app",
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Fn::GetAtt": [
+        "ViewerDistribution652701C8",
+        "DomainName"
+       ]
+      }
+     ]
+    ]
+   },
+   "Export": {
+    "Name": "VirtualTourViewerUrl"
+   }
+  },
+  "UploadsBucketName": {
+   "Description": "S3 bucket for raw video uploads",
+   "Value": {
+    "Ref": "UploadsBucket5E5E9B64"
+   },
+   "Export": {
+    "Name": "VirtualTourUploadsBucket"
+   }
+  },
+  "OutputsBucketName": {
+   "Description": "S3 bucket for processed tour outputs",
+   "Value": {
+    "Ref": "OutputsBucket24CB89DF"
+   },
+   "Export": {
+    "Name": "VirtualTourOutputsBucket"
+   }
+  },
+  "JobsTableName": {
+   "Description": "DynamoDB table for job records",
+   "Value": {
+    "Ref": "JobsTable1970BC16"
+   },
+   "Export": {
+    "Name": "VirtualTourJobsTable"
+   }
+  },
+  "EcrRepositoryUri": {
+   "Description": "ECR repository URI for the worker image",
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      {
+       "Fn::Select": [
+        4,
+        {
+         "Fn::Split": [
+          ":",
+          {
+           "Fn::GetAtt": [
+            "TourWorkerRepoA913762B",
+            "Arn"
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      ".dkr.ecr.",
+      {
+       "Fn::Select": [
+        3,
+        {
+         "Fn::Split": [
+          ":",
+          {
+           "Fn::GetAtt": [
+            "TourWorkerRepoA913762B",
+            "Arn"
+           ]
+          }
+         ]
+        }
+       ]
+      },
+      ".",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/",
+      {
+       "Ref": "TourWorkerRepoA913762B"
+      }
+     ]
+    ]
+   },
+   "Export": {
+    "Name": "VirtualTourEcrRepository"
+   }
+  },
+  "JobQueueArn": {
+   "Description": "ARN of the Batch job queue",
+   "Value": {
+    "Ref": "JobQueue"
+   },
+   "Export": {
+    "Name": "VirtualTourJobQueueArn"
+   }
+  },
+  "JobDefinitionArn": {
+   "Description": "ARN of the Batch job definition",
+   "Value": {
+    "Ref": "JobDefinition"
+   },
+   "Export": {
+    "Name": "VirtualTourJobDefinitionArn"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

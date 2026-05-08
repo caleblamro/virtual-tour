@@ -1,0 +1,1321 @@
+{
+  "/VirtualTourStack": [
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/Custom::S3AutoDeleteObjectsCustomResourceProvider": [
+    {
+      "type": "aws:cdk:is-custom-resource-handler-customResourceProvider",
+      "data": true
+    }
+  ],
+  "/VirtualTourStack/JobsTable": [
+    {
+      "type": "aws:cdk:hasPhysicalName",
+      "data": {
+        "Ref": "JobsTable1970BC16"
+      }
+    }
+  ],
+  "/VirtualTourStack/Custom::ECRAutoDeleteImagesCustomResourceProvider": [
+    {
+      "type": "aws:cdk:is-custom-resource-handler-customResourceProvider",
+      "data": true
+    }
+  ],
+  "/VirtualTourStack/BatchInstanceProfile": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BatchInstanceProfile"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:134:34)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/BatchComputeEnv2": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BatchComputeEnv2"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:140:32)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/JobQueue": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobQueue"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:160:22)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/JobDefinition": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobDefinition"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:172:27)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/ApiUrl": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApiUrl"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:360:5)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/ViewerUrl": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ViewerUrl"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:366:5)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/UploadsBucketName": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "UploadsBucketName"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:372:5)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/OutputsBucketName": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "OutputsBucketName"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:378:5)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/JobsTableName": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsTableName"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:384:5)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/EcrRepositoryUri": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "EcrRepositoryUri"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:390:5)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/JobQueueArn": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobQueueArn"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:396:5)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/JobDefinitionArn": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobDefinitionArn"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:402:5)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/BootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BootstrapVersion"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, node internals, @cspotcode/source-map-support...",
+        "(no user code in 9007199254740991 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/VirtualTourStack/CheckBootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CheckBootstrapVersion"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, node internals, @cspotcode/source-map-support...",
+        "(no user code in 9007199254740991 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/VirtualTourStack/UploadsBucket/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "UploadsBucket5E5E9B64"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Bucket2 in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:28:27)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    },
+    {
+      "type": "aws:cdk:analytics:mixin",
+      "data": {
+        "mixin": "aws-cdk-lib.aws_s3.mixins.BucketAutoDeleteObjects"
+      }
+    }
+  ],
+  "/VirtualTourStack/UploadsBucket/AllowBucketNotificationsToVirtualTourStackOnUploadFn4D92FE99": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "UploadsBucketAllowBucketNotificationsToVirtualTourStackOnUploadFn4D92FE997D97D64C"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...WrappedClass.addEventNotification in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:275:19)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Role": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Bucket2 in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:28:27)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Handler": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Bucket2 in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:28:27)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/OutputsBucket/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "OutputsBucket24CB89DF"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Bucket2 in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:50:27)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    },
+    {
+      "type": "aws:cdk:analytics:mixin",
+      "data": {
+        "mixin": "aws-cdk-lib.aws_s3.mixins.BucketAutoDeleteObjects"
+      }
+    }
+  ],
+  "/VirtualTourStack/ViewerBucket/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ViewerBucketC34045E1"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Bucket2 in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:59:26)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    },
+    {
+      "type": "aws:cdk:analytics:mixin",
+      "data": {
+        "mixin": "aws-cdk-lib.aws_s3.mixins.BucketAutoDeleteObjects"
+      }
+    }
+  ],
+  "/VirtualTourStack/JobsTable/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "JobsTable1970BC16"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Table2 in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:68:23)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/TourWorkerRepo/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "TourWorkerRepoA913762B"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Repository2 in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:84:21)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/Custom::ECRAutoDeleteImagesCustomResourceProvider/Role": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CustomECRAutoDeleteImagesCustomResourceProviderRole665F2773"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Repository2 in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:84:21)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/Custom::ECRAutoDeleteImagesCustomResourceProvider/Handler": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CustomECRAutoDeleteImagesCustomResourceProviderHandler8D89C030"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Repository2 in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:84:21)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/BatchVpc/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BatchVpc4B2AEB5B"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Vpc2 in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:93:22)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/BatchVpc/IGW": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BatchVpcIGWF728C04F"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Vpc2 in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:93:22)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/BatchVpc/VPCGW": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BatchVpcVPCGWE0E8C261"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Vpc2 in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:93:22)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/BatchSG/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BatchSG9E4B0CB5"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new SecurityGroup2 in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:105:32)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/BatchServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BatchServiceRole57930367"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Role2 in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:113:30)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/BatchInstanceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BatchInstanceRole8DB66C4C"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Role2 in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:120:31)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/CreateJobFn/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CreateJobFnB19C676F"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new NodejsFunction in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:225:25)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/GetJobFn/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "GetJobFn642F34A5"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new NodejsFunction in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:232:22)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/ListJobsFn/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ListJobsFn725D7062"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new NodejsFunction in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:239:24)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/OnUploadFn/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "OnUploadFn4AA79727"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new NodejsFunction in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:246:24)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/BucketNotificationsHandler050a0587b7544547bf325f094a3db834/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BucketNotificationsHandler050a0587b7544547bf325f094a3db8347ECC3691"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...WrappedClass.addEventNotification in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:275:19)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/OutputsDistribution/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "OutputsDistribution6E64F3F1"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Distribution2 in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:282:33)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/ViewerDistribution/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ViewerDistribution652701C8"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Distribution2 in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:291:32)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/VirtualTourApi/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "VirtualTourApi9705CB02"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new HttpApi2 in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:317:21)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/CDKMetadata/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CDKMetadata"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, node internals, @cspotcode/source-map-support...",
+        "(no user code in 9007199254740991 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/VirtualTourStack/UploadsBucket/Policy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "UploadsBucketPolicy34A32B0B"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Bucket2 in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:28:27)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    },
+    {
+      "type": "aws:cdk:analytics:mixin",
+      "data": {
+        "mixin": "aws-cdk-lib.aws_s3.mixins.BucketPolicyStatements"
+      }
+    }
+  ],
+  "/VirtualTourStack/UploadsBucket/AutoDeleteObjectsCustomResource/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "UploadsBucketAutoDeleteObjectsCustomResourceFFD11C72"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Bucket2 in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:28:27)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/UploadsBucket/Notifications/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "UploadsBucketNotifications4592A072"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...WrappedClass.addEventNotification in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:275:19)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/OutputsBucket/Policy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "OutputsBucketPolicy1BAA4ABE"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Bucket2 in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:50:27)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    },
+    {
+      "type": "aws:cdk:analytics:mixin",
+      "data": {
+        "mixin": "aws-cdk-lib.aws_s3.mixins.BucketPolicyStatements"
+      }
+    }
+  ],
+  "/VirtualTourStack/OutputsBucket/AutoDeleteObjectsCustomResource/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "OutputsBucketAutoDeleteObjectsCustomResource74769A63"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Bucket2 in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:50:27)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/ViewerBucket/Policy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ViewerBucketPolicyBC0E564E"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Bucket2 in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:59:26)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    },
+    {
+      "type": "aws:cdk:analytics:mixin",
+      "data": {
+        "mixin": "aws-cdk-lib.aws_s3.mixins.BucketPolicyStatements"
+      }
+    }
+  ],
+  "/VirtualTourStack/ViewerBucket/AutoDeleteObjectsCustomResource/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ViewerBucketAutoDeleteObjectsCustomResource71EAFD08"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Bucket2 in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:59:26)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/TourWorkerRepo/AutoDeleteImagesCustomResource/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "TourWorkerRepoAutoDeleteImagesCustomResource87581519"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Repository2 in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:84:21)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/BatchVpc/PublicSubnet1/Subnet": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BatchVpcPublicSubnet1Subnet31633A1F"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        ".../Users/caleb/Documents/Projects/virtual-tour/infra/node_modules/aws-cdk-lib/aws-ec2/lib/vpc.js:1:257 in aws-cdk-lib...",
+        "Array.forEach (:)",
+        "...new Vpc2 in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:93:22)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/BatchVpc/PublicSubnet1/RouteTable": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BatchVpcPublicSubnet1RouteTableF9405838"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        ".../Users/caleb/Documents/Projects/virtual-tour/infra/node_modules/aws-cdk-lib/aws-ec2/lib/vpc.js:1:257 in aws-cdk-lib...",
+        "Array.forEach (:)",
+        "...new Vpc2 in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:93:22)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/BatchVpc/PublicSubnet1/RouteTableAssociation": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BatchVpcPublicSubnet1RouteTableAssociation9973DB5D"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        ".../Users/caleb/Documents/Projects/virtual-tour/infra/node_modules/aws-cdk-lib/aws-ec2/lib/vpc.js:1:257 in aws-cdk-lib...",
+        "Array.forEach (:)",
+        "...new Vpc2 in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:93:22)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/BatchVpc/PublicSubnet1/DefaultRoute": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BatchVpcPublicSubnet1DefaultRoute2131DB86"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        ".../Users/caleb/Documents/Projects/virtual-tour/infra/node_modules/aws-cdk-lib/aws-ec2/lib/vpc.js:1:197 in aws-cdk-lib...",
+        "Array.forEach (:)",
+        "...new Vpc2 in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:93:22)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/BatchVpc/PublicSubnet2/Subnet": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BatchVpcPublicSubnet2Subnet31AA024F"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        ".../Users/caleb/Documents/Projects/virtual-tour/infra/node_modules/aws-cdk-lib/aws-ec2/lib/vpc.js:1:257 in aws-cdk-lib...",
+        "Array.forEach (:)",
+        "...new Vpc2 in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:93:22)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/BatchVpc/PublicSubnet2/RouteTable": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BatchVpcPublicSubnet2RouteTableFA91774D"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        ".../Users/caleb/Documents/Projects/virtual-tour/infra/node_modules/aws-cdk-lib/aws-ec2/lib/vpc.js:1:257 in aws-cdk-lib...",
+        "Array.forEach (:)",
+        "...new Vpc2 in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:93:22)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/BatchVpc/PublicSubnet2/RouteTableAssociation": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BatchVpcPublicSubnet2RouteTableAssociation71A8C499"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        ".../Users/caleb/Documents/Projects/virtual-tour/infra/node_modules/aws-cdk-lib/aws-ec2/lib/vpc.js:1:257 in aws-cdk-lib...",
+        "Array.forEach (:)",
+        "...new Vpc2 in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:93:22)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/BatchVpc/PublicSubnet2/DefaultRoute": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BatchVpcPublicSubnet2DefaultRoute3C769CCF"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        ".../Users/caleb/Documents/Projects/virtual-tour/infra/node_modules/aws-cdk-lib/aws-ec2/lib/vpc.js:1:197 in aws-cdk-lib...",
+        "Array.forEach (:)",
+        "...new Vpc2 in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:93:22)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/BatchVpc/PublicSubnet3/Subnet": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BatchVpcPublicSubnet3Subnet45AE4127"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        ".../Users/caleb/Documents/Projects/virtual-tour/infra/node_modules/aws-cdk-lib/aws-ec2/lib/vpc.js:1:257 in aws-cdk-lib...",
+        "Array.forEach (:)",
+        "...new Vpc2 in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:93:22)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/BatchVpc/PublicSubnet3/RouteTable": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BatchVpcPublicSubnet3RouteTableB9B9486A"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        ".../Users/caleb/Documents/Projects/virtual-tour/infra/node_modules/aws-cdk-lib/aws-ec2/lib/vpc.js:1:257 in aws-cdk-lib...",
+        "Array.forEach (:)",
+        "...new Vpc2 in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:93:22)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/BatchVpc/PublicSubnet3/RouteTableAssociation": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BatchVpcPublicSubnet3RouteTableAssociation04BF0C2C"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        ".../Users/caleb/Documents/Projects/virtual-tour/infra/node_modules/aws-cdk-lib/aws-ec2/lib/vpc.js:1:257 in aws-cdk-lib...",
+        "Array.forEach (:)",
+        "...new Vpc2 in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:93:22)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/BatchVpc/PublicSubnet3/DefaultRoute": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BatchVpcPublicSubnet3DefaultRouteEA078244"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        ".../Users/caleb/Documents/Projects/virtual-tour/infra/node_modules/aws-cdk-lib/aws-ec2/lib/vpc.js:1:197 in aws-cdk-lib...",
+        "Array.forEach (:)",
+        "...new Vpc2 in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:93:22)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/BatchInstanceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BatchInstanceRoleDefaultPolicy70968813"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...WrappedClass.grantRead in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:130:19)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/CreateJobFn/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CreateJobFnServiceRole9D96925D"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new NodejsFunction in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:225:25)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/GetJobFn/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "GetJobFnServiceRole8B20C1F3"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new NodejsFunction in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:232:22)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/ListJobsFn/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ListJobsFnServiceRole404617D1"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new NodejsFunction in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:239:24)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/OnUploadFn/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "OnUploadFnServiceRole0BE4F252"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new NodejsFunction in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:246:24)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/BucketNotificationsHandler050a0587b7544547bf325f094a3db834/Role/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BucketNotificationsHandler050a0587b7544547bf325f094a3db834RoleB6FB88EC"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...WrappedClass.addEventNotification in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:275:19)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/VirtualTourApi/DefaultStage/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "VirtualTourApiDefaultStage1CCBAFB6"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new HttpApi2 in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:317:21)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/VirtualTourApi/POST--jobs/CreateJobIntegration-Permission": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "VirtualTourApiPOSTjobsCreateJobIntegrationPermission2D27E074"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        ".../Users/caleb/Documents/Projects/virtual-tour/infra/node_modules/aws-cdk-lib/aws-apigatewayv2/lib/http/api.js:1:96 in aws-cdk-lib...",
+        "Array.map (:)",
+        "...WrappedClass.<anonymous> in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:331:13)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/VirtualTourApi/POST--jobs/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "VirtualTourApiPOSTjobsA5C7145E"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        ".../Users/caleb/Documents/Projects/virtual-tour/infra/node_modules/aws-cdk-lib/aws-apigatewayv2/lib/http/api.js:1:96 in aws-cdk-lib...",
+        "Array.map (:)",
+        "...WrappedClass.<anonymous> in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:331:13)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/VirtualTourApi/GET--jobs--{jobId}/GetJobIntegration-Permission": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "VirtualTourApiGETjobsjobIdGetJobIntegrationPermission14B3156B"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        ".../Users/caleb/Documents/Projects/virtual-tour/infra/node_modules/aws-cdk-lib/aws-apigatewayv2/lib/http/api.js:1:96 in aws-cdk-lib...",
+        "Array.map (:)",
+        "...WrappedClass.<anonymous> in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:340:13)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/VirtualTourApi/GET--jobs--{jobId}/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "VirtualTourApiGETjobsjobId7444F384"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        ".../Users/caleb/Documents/Projects/virtual-tour/infra/node_modules/aws-cdk-lib/aws-apigatewayv2/lib/http/api.js:1:96 in aws-cdk-lib...",
+        "Array.map (:)",
+        "...WrappedClass.<anonymous> in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:340:13)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/VirtualTourApi/GET--jobs/ListJobsIntegration-Permission": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "VirtualTourApiGETjobsListJobsIntegrationPermission96EC809D"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        ".../Users/caleb/Documents/Projects/virtual-tour/infra/node_modules/aws-cdk-lib/aws-apigatewayv2/lib/http/api.js:1:96 in aws-cdk-lib...",
+        "Array.map (:)",
+        "...WrappedClass.<anonymous> in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:349:13)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/VirtualTourApi/GET--jobs/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "VirtualTourApiGETjobs3C96DF3B"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        ".../Users/caleb/Documents/Projects/virtual-tour/infra/node_modules/aws-cdk-lib/aws-apigatewayv2/lib/http/api.js:1:96 in aws-cdk-lib...",
+        "Array.map (:)",
+        "...WrappedClass.<anonymous> in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:349:13)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/UploadsBucket/Notifications/HandlerPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "UploadsBucketNotificationsHandlerPolicy74E9A4D0"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...WrappedClass.addEventNotification in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:275:19)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/CreateJobFn/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CreateJobFnServiceRoleDefaultPolicy76E1D239"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...WrappedClass.grantWrite in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:255:19)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/GetJobFn/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "GetJobFnServiceRoleDefaultPolicyF033CD0B"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...WrappedClass.grantReadData in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:259:15)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/ListJobsFn/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ListJobsFnServiceRoleDefaultPolicy72584EA4"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...WrappedClass.grantReadData in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:262:15)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/OnUploadFn/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "OnUploadFnServiceRoleDefaultPolicy6F452801"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...WrappedClass.grantWriteData in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:264:15)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/OutputsDistribution/Origin1/S3OriginAccessControl/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "OutputsDistributionOrigin1S3OriginAccessControl3A235738"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Distribution2 in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:282:33)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/ViewerDistribution/Origin1/S3OriginAccessControl/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ViewerDistributionOrigin1S3OriginAccessControlBBFD1AD8"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Distribution2 in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:291:32)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/VirtualTourApi/POST--jobs/CreateJobIntegration/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "VirtualTourApiPOSTjobsCreateJobIntegrationDCF8CC75"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        ".../Users/caleb/Documents/Projects/virtual-tour/infra/node_modules/aws-cdk-lib/aws-apigatewayv2/lib/http/api.js:1:96 in aws-cdk-lib...",
+        "Array.map (:)",
+        "...WrappedClass.<anonymous> in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:331:13)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/VirtualTourApi/GET--jobs--{jobId}/GetJobIntegration/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "VirtualTourApiGETjobsjobIdGetJobIntegration808B9308"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        ".../Users/caleb/Documents/Projects/virtual-tour/infra/node_modules/aws-cdk-lib/aws-apigatewayv2/lib/http/api.js:1:96 in aws-cdk-lib...",
+        "Array.map (:)",
+        "...WrappedClass.<anonymous> in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:340:13)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/VirtualTourStack/VirtualTourApi/GET--jobs/ListJobsIntegration/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "VirtualTourApiGETjobsListJobsIntegration6A48B9AC"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        ".../Users/caleb/Documents/Projects/virtual-tour/infra/node_modules/aws-cdk-lib/aws-apigatewayv2/lib/http/api.js:1:96 in aws-cdk-lib...",
+        "Array.map (:)",
+        "...WrappedClass.<anonymous> in aws-cdk-lib...",
+        "new VirtualTourStack (/Users/caleb/Documents/Projects/virtual-tour/infra/lib/virtual-tour-stack.ts:349:13)",
+        "<anonymous> (/Users/caleb/Documents/Projects/virtual-tour/infra/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ]
+}

@@ -128,7 +128,7 @@ export class VirtualTourStack extends cdk.Stack {
 
     // Grant batch instance role access to S3 buckets
     uploadsBucket.grantRead(batchInstanceRole);
-    outputsBucket.grantWrite(batchInstanceRole);
+    outputsBucket.grantReadWrite(batchInstanceRole);
     jobsTable.grantReadWriteData(batchInstanceRole);
 
     const batchInstanceProfile = new iam.CfnInstanceProfile(this, 'BatchInstanceProfile', {
@@ -142,14 +142,12 @@ export class VirtualTourStack extends cdk.Stack {
       state: 'ENABLED',
       serviceRole: `arn:aws:iam::${account}:role/aws-service-role/batch.amazonaws.com/AWSServiceRoleForBatch`,
       computeResources: {
-        type: 'SPOT',
-        allocationStrategy: 'SPOT_CAPACITY_OPTIMIZED',
+        type: 'EC2',
+        allocationStrategy: 'BEST_FIT_PROGRESSIVE',
         instanceTypes: ['g5.xlarge', 'g4dn.xlarge', 'g5.2xlarge', 'g4dn.2xlarge', 'g4dn.4xlarge'],
         minvCpus: 0,
         maxvCpus: 16,
         desiredvCpus: 0,
-        spotIamFleetRole: undefined,
-        bidPercentage: 100,
         subnets: batchVpc.publicSubnets.map((s) => s.subnetId),
         securityGroupIds: [batchSecurityGroup.securityGroupId],
         instanceRole: batchInstanceProfile.attrArn,
@@ -180,6 +178,9 @@ export class VirtualTourStack extends cdk.Stack {
         vcpus: 4,
         memory: 14000,
         environment: [],
+        resourceRequirements: [
+          { type: 'GPU', value: '1' },
+        ],
       },
       timeout: {
         attemptDurationSeconds: 3600,
