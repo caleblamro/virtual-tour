@@ -2,12 +2,6 @@ FROM 584916459912.dkr.ecr.us-west-2.amazonaws.com/tour-worker:base
 
 RUN apt-get update && apt-get install -y xvfb ninja-build libvulkan1 && rm -rf /var/lib/apt/lists/*
 
-# NVIDIA Vulkan ICD — splat-transform's WebGPU/Dawn backend needs it for SH compression.
-# libGLX_nvidia.so.0 is injected at runtime by nvidia-container-toolkit when --gpus all is used.
-RUN mkdir -p /etc/vulkan/icd.d && \
-    echo '{"file_format_version":"1.0.0","ICD":{"library_path":"libGLX_nvidia.so.0","api_version":"1.3.194"}}' \
-    > /etc/vulkan/icd.d/nvidia_icd.json
-
 # Tell PyTorch which CUDA architectures to compile for.
 # Without this, the build queries the GPU at compile time — which doesn't exist
 # inside docker build, causing an IndexError crash.
