@@ -5,3 +5,7 @@ cdk.out/
 .env
 .env.local
 infra/*.mp4
+viewer/*.ply
+viewer/*.sog
+viewer/*.glb
+viewer/*.jpg
