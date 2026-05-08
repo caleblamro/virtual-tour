@@ -71,7 +71,7 @@ test-train:
 test-transform:
 	@[ -f "$(CHECKPOINT)/output/point_cloud.ply" ] || (echo "No PLY found — run make test-train first"; exit 1)
 	mkdir -p $(CHECKPOINT)/final
-	docker run --rm \
+	docker run --gpus all --rm \
 		-v "$(CHECKPOINT):/work" \
 		--entrypoint bash $(ECR_URI):latest /app/scripts/transform.sh
 	@echo "Final output in $(CHECKPOINT)/final/"
