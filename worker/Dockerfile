@@ -6,9 +6,9 @@ RUN apt-get update && apt-get install -y xvfb && rm -rf /var/lib/apt/lists/*
 # --recursive pulls diff-gaussian-rasterization_fastgs, simple-knn, fused-ssim.
 RUN git clone --depth 1 --recursive https://github.com/fastgs/FastGS.git /opt/fastgs && \
     pip3 install --no-build-isolation \
-                 -e /opt/fastgs/submodules/diff-gaussian-rasterization_fastgs \
-                 -e /opt/fastgs/submodules/simple-knn \
-                 -e /opt/fastgs/submodules/fused-ssim && \
+                 /opt/fastgs/submodules/diff-gaussian-rasterization_fastgs \
+                 /opt/fastgs/submodules/simple-knn \
+                 /opt/fastgs/submodules/fused-ssim && \
     pip3 install lpipsPyTorch tqdm imageio
 
 COPY scripts/ scripts/

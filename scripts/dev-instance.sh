@@ -10,7 +10,7 @@
 set -euo pipefail
 
 REGION=us-west-2
-INSTANCE_TYPE=g4dn.xlarge          # 16 GB T4 GPU, matches Batch worker
+INSTANCE_TYPE=g4dn.xlarge          # 16 GB T4 GPU, matches Batch worker — On-Demand for dev (no interruptions)
 KEY_NAME=virtual-tour-dev
 SG_ID=sg-0dd979d4d47f9e03e
 STATE_FILE=/tmp/tour-dev-instance.json
@@ -29,16 +29,15 @@ cmd=${1:-usage}
 
 case "$cmd" in
   launch)
-    echo "Requesting Spot g4dn.xlarge in $REGION..."
-    # No SubnetId — AWS picks the AZ with available Spot capacity.
-    # Network interface is required to get AssociatePublicIpAddress on Spot.
+    echo "Requesting On-Demand g4dn.xlarge in $REGION..."
+    # On-Demand: no interruption risk — worth the extra $0.70/hr for dev work.
+    # Network interface required to get a public IP.
     INSTANCE_ID=$(aws ec2 run-instances \
       --region "$REGION" \
       --image-id "$AMI_ID" \
       --instance-type "$INSTANCE_TYPE" \
       --key-name "$KEY_NAME" \
       --network-interfaces "[{\"DeviceIndex\":0,\"Groups\":[\"$SG_ID\"],\"AssociatePublicIpAddress\":true}]" \
-      --instance-market-options '{"MarketType":"spot","SpotOptions":{"SpotInstanceType":"one-time"}}' \
       --block-device-mappings '[{"DeviceName":"/dev/sda1","Ebs":{"VolumeSize":100,"VolumeType":"gp3"}}]' \
       --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=tour-dev},{Key=Project,Value=virtual-tour}]' \
       --query 'Instances[0].InstanceId' \
