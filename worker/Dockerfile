@@ -19,6 +19,10 @@ RUN git clone --depth 1 --recursive https://github.com/fastgs/FastGS.git /opt/fa
 RUN pip3 install lpips tqdm imageio plyfile websockets
 COPY lpipsPyTorch/ /usr/local/lib/python3.10/dist-packages/lpipsPyTorch/
 
+# Vocab tree for COLMAP vocab_tree_matcher (~140MB, not bundled with apt package)
+RUN wget -q https://demuc.de/colmap/vocab_tree_flickr100K_words32K.bin \
+    -O /usr/local/share/vocab_tree.bin
+
 COPY scripts/ scripts/
 COPY run.sh .
 RUN chmod +x run.sh scripts/*.sh

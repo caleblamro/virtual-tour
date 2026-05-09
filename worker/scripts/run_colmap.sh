@@ -13,12 +13,12 @@ colmap feature_extractor \
   --SiftExtraction.use_gpu 1 \
   --SiftExtraction.max_num_features 16384
 
-# Exhaustive matching — checks all frame pairs, catching connections when the
-# camera revisits the same area (common in home/room walkthroughs). More accurate
-# than sequential_matcher for scenes ≤300 frames.
-colmap exhaustive_matcher \
+# Vocab tree matching — O(n log n), handles revisited areas better than sequential,
+# much faster than exhaustive for 400+ frames.
+colmap vocab_tree_matcher \
   --database_path /work/db.db \
-  --SiftMatching.use_gpu 1
+  --SiftMatching.use_gpu 1 \
+  --VocabTreeMatching.vocab_tree_path /usr/local/share/vocab_tree.bin
 
 colmap mapper \
   --database_path /work/db.db \

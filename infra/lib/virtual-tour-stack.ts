@@ -183,7 +183,7 @@ export class VirtualTourStack extends cdk.Stack {
         ],
       },
       timeout: {
-        attemptDurationSeconds: 3600,
+        attemptDurationSeconds: 7200,
       },
       retryStrategy: {
         attempts: 1,
